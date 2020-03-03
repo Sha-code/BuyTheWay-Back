@@ -1,15 +1,11 @@
 const express = require('express');
-const ProductModel = require('../models/ProductModel');
-const app = express();
+const productsControllers = require('../controllers/products-controllers');
 
-app.get('/products', async (req, res) => {
-    const products = await ProductModel.find({});
+const router = express.Router();
 
-    try {
-        res.send(products);
-    } catch (err) {
-        res.status(500).send(err);
-    }
-});
+router.get('/products', productsControllers.getAllProducts)
+router.get('/products/id/:pid', productsControllers.getProductById)
 
-module.exports = app
+
+
+module.exports = router;
