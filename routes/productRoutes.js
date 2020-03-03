@@ -3,6 +3,7 @@ const ProductModel = require('../models/ProductModel');
 const app = express();
 
 app.get('/products', async (req, res) => {
+    console.log('products')
     const products = await ProductModel.find({});
 
     try {
