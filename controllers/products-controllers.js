@@ -35,9 +35,28 @@ const addNewProduct = async (req, res, next) => {
       next(new HttpError('adding new product failed'), 400);
     });
 }
+const updatedProduct = async (req, res, next) => {
+  ProductModel.findById(req.params.pid, function (err, product) {
+    console.log(product)
+    if (!product)
+      res.status(404).send("data is not found");
+    else
+      product.sku = req.body.sku;
+    product.description = req.body.description;
+    product.category = req.body.category;
+    product.name = req.body.name;
+    product.picture = req.body.picture;
+    product.save().then(product => {
+      res.json('product updated!');
+    })
+      .catch(err => {
+        next(new HttpError('updating product failed'), 400);
+      });
+  });
+}
 
 exports.getAllProducts = getAllProducts;
 exports.getProductById = getProductById;
 exports.getProductByCategory = getProductByCategory;
 exports.addNewProduct = addNewProduct;
-
+exports.updatedProduct = updatedProduct;
