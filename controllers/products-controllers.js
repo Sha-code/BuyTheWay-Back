@@ -9,7 +9,7 @@ const getAllProducts = async (req, res) => {
 const getProductById = async (req, res, next) => {
   const productId = req.params.pid;
   if (!productId.match(/^[0-9a-fA-F]{24}$/)) {
-    return next(new HttpError('could not find an article with this id trop long/court'), 404);
+    return next(new HttpError('this is not a valid id'), 404);
   }
   const product = await ProductModel.findById(productId);
   if (product === null) {
