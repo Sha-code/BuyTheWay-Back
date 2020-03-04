@@ -1,26 +1,48 @@
 const mongoose = require('mongoose');
 
 const ProductSchema = new mongoose.Schema({
-    name: {
-        type: String,
+    sku: {
+        type: Number,
         required: true,
         trim: true,
-        // lowercase: true
     },
-    description: {
-        type: String,
-        required: true,
-        // default: ,
-        // validate(value) { 
-        //   if (value < 0) throw new Error("Negative calories aren't real.");
-        // }
-    },
-    picture: {
+    name: {
         type: String,
         required: true,
         // trim: true,
         // lowercase: true
     },
+    description: {
+        type: String,
+        required: true,
+
+    },
+    picture: {
+        picture1: {
+            type: String,
+            required: true,
+        },
+        picture2: {
+            type: String,
+            required: true,
+        }
+    },
+    category: {
+        id: {
+            type: Number,
+            required: true,
+        },
+        type: {
+            type: String,
+            required: true,
+        },
+        gender: {
+            type: String,
+            required: true,
+        }
+
+    }
+
 });
 
 const Product = mongoose.model("product", ProductSchema);
