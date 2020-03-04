@@ -27,14 +27,11 @@ const getProductByCategory = async (req, res) => {
 
 const addNewProduct = async (req, res, next) => {
   let product = new ProductModel(req.body);
-  console.log(product)
   product.save()
-    .then(res => {
-      console.log('product added successfully')
-      next(new HttpError('product added successfully'), 200);
+    .then(product => {
+      res.status(200).json({ 'product': 'product added successfully' });
     })
     .catch(err => {
-      console.log(err)
       next(new HttpError('adding new product failed'), 400);
     });
 }
