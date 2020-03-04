@@ -8,10 +8,10 @@ const getAllProducts = async (req, res) => {
 
 const getProductById = async (req, res, next) => {
   const productId = req.params.pid;
+  if (!productId.match(/^[0-9a-fA-F]{24}$/)) {
+    return next(new HttpError('could not find an article with this id trop long/court'), 404);
+  }
   const product = await ProductModel.findById(productId);
-  // if (!productId.match(/^[0-9a-fA-F]{24}$/)) {
-  //   return next(new HttpError('could not find an article with this id'), 404);
-  // }
   if (product === null) {
     console.log('le produit ne peut etre trouver avec cet id', product)
     return next(new HttpError('could not find an article with this id'), 404);
@@ -19,7 +19,6 @@ const getProductById = async (req, res, next) => {
 
   res.json({ product });
 };
-// TODO : erreur => id trop long trop court, bonne taille mais null
 
 const getProductByCategory = async (req, res) => {
   const categoryId = req.params.cid;
