@@ -13,9 +13,16 @@ const getProductById = async (req, res) => {
       }
     const product = await ProductModel.findById(productId);
     res.json({product});
+};
+// TODO : erreur => id trop long trop court, bonne taille mais null
+
+const getProductByCategory = async(req,res) => {
+  const categoryId = req.params.cid;
+  const category = await ProductModel.find({'category.id': categoryId});
+  res.json({category});
 }
 
 exports.getAllProducts = getAllProducts;
 exports.getProductById = getProductById;
+exports.getProductByCategory = getProductByCategory;
 
-// TODO : erreur => id trop long trop court, bonne taille mais null
