@@ -26,12 +26,12 @@ app.use((req, res, next) => {
     return next(error)
 });
 
-app.use((error, req, res, next)=>{
-  if (res.headerSent) {
-      return next(error);
-  }
-  res.status(error.code || 500);
-  res.json({message: error.message || 'An unknow error occured!'});
+app.use((error, req, res, next) => {
+    if (res.headerSent) {
+        return next(error);
+    }
+    res.status(error.code || 500);
+    res.json({ message: error.message || 'An unknow error occured!' });
 });
 
 app.listen(3000, () => { console.log('Server is running...') });
