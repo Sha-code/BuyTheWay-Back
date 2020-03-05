@@ -2,7 +2,9 @@ const express = require('express');
 var cors = require('cors');
 const productsControllers = require('../controllers/products-controllers');
 
+
 const router = express.Router();
+
 
 router.get('/products',cors(), productsControllers.getAllProducts)
 router.get('/products/:pid',cors(), productsControllers.getProductById)
