@@ -11,4 +11,39 @@ const getCategoryByGender = async (req, res) => {
     res.json({category});
 };
 
+const addNewCategory = async (req, res, next) => {
+  let category = new CategoryModel(req.body);
+  category.save()
+    .then(category => {
+      res.status(200).json({ 'category': 'category added successfully' });
+    })
+    .catch(err => {
+      next(new HttpError('adding new product failed'), 400);
+    });
+}
+const updatedCategory = async (req, res, next) => {
+  CategoryModel.findById(req.params.cid, function (err, category) {
+    if (!category)
+      res.status(404).send("data is not found");
+    else
+    category.name = req.body.name
+    category.gender = req.body.gender
+    category.save().then(category => {
+      res.json('category updated!');
+    })
+      .catch(err => {
+        next(new HttpError('updating product failed'), 400);
+      });
+  });
+}
+const deletedCategory = async (req, res, next) => {
+    CategoryModel.findByIdAndDelete({_id: req.params.cid}).then(function(category){
+      res.send(category);
+    });
+    
+}
+
 exports.getCategoryByGender = getCategoryByGender;
+exports.addNewCategory = addNewCategory;
+exports.updatedCategory = updatedCategory;
+exports.deletedCategory = deletedCategory;
