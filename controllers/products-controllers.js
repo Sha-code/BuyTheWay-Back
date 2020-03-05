@@ -54,9 +54,24 @@ const updatedProduct = async (req, res, next) => {
       });
   });
 }
+const removeProductById = async (req, res, next) => {
+  ProductModel.findByIdAndRemove(req.params.pid, function (err, product) {
+    console.log(product)
+    if (!product)
+      next(new HttpError('product is not found'), 404);
+    else
+      res.status(200).send("product is removed");
+  })
+    .catch(err => {
+      next(new HttpError('removing product failed'), 400);
+    });
+}
 
 exports.getAllProducts = getAllProducts;
 exports.getProductById = getProductById;
 exports.getProductByCategory = getProductByCategory;
 exports.addNewProduct = addNewProduct;
 exports.updatedProduct = updatedProduct;
+exports.removeProductById = removeProductById;
+
+
