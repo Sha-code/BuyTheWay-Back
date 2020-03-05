@@ -45,6 +45,7 @@ const updatedProduct = async (req, res, next) => {
     product.description = req.body.description;
     product.category = req.body.category;
     product.name = req.body.name;
+    product.price = req.body.price;
     product.picture = req.body.picture;
     product.save().then(product => {
       res.json('product updated!');

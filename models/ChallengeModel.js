@@ -16,11 +16,11 @@ const ChallengeSchema = new mongoose.Schema({
         required: true,
     },
     date_start: {
-        type: String,
+        type: Date,
         required: true,
     },
     date_end: {
-        type: String,
+        type: Date,
         required: true,
     },
     tag: {
