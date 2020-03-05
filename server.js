@@ -5,8 +5,9 @@ var cors = require('cors');
 
 const productRouter = require('./routes/productRoutes');
 const userRouter = require('./routes/userRoutes');
-const categoryRouter = require ('./routes/categoryRoutes');
-const challengeRouter = require ('./routes/challengeRoutes')
+const categoryRouter = require('./routes/categoryRoutes');
+const challengeRouter = require('./routes/challengeRoutes')
+const skuRouter = require('./routes/skuRoutes')
 const HttpError = require('./models/http-errors')
 
 const app = express();
@@ -26,6 +27,7 @@ app.use(productRouter);
 app.use(userRouter);
 app.use(categoryRouter);
 app.use(challengeRouter)
+app.use(skuRouter)
 
 app.use((req, res, next) => {
     const error = new HttpError('could not find this route', 404)

@@ -1,7 +1,7 @@
 const HttpError = require('../models/http-errors');
 const UserModel = require('../models/UserModel');
 
-const getUserById = async (req, res) => {
+const getUserById = async (req, res, next) => {
   const userId = req.params.uid;
   if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
     return next(new HttpError('This is not a valid id'), 404);

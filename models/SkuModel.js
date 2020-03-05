@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const SkuSchema = new mongoose.Schema({
-  
+
     size: {
         type: String,
         required: true,
@@ -19,5 +19,5 @@ const SkuSchema = new mongoose.Schema({
 
 });
 
-const Category = mongoose.model("category", CategorySchema);
-module.exports = Category;
+const Sku = mongoose.model("SKU", SkuSchema, "SKU");
+module.exports = Sku;
