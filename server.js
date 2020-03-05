@@ -1,16 +1,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+var cors = require('cors');
 
 const productRouter = require('./routes/productRoutes');
 const userRouter = require('./routes/userRoutes');
 const categoryRouter = require ('./routes/categoryRoutes');
+const challengeRouter = require ('./routes/challengeRoutes')
 const HttpError = require('./models/http-errors')
 
 const app = express();
 const uri = "mongodb+srv://ByTheWay:bythewayproject@bytheway-qybxr.mongodb.net/bytheway?retryWrites=true&w=majority"
 
 app.use(bodyParser.json());
+app.use(cors());
 
 mongoose.connect(uri, {
     useNewUrlParser: true,
@@ -22,6 +25,7 @@ mongoose.connect(uri, {
 app.use(productRouter);
 app.use(userRouter);
 app.use(categoryRouter);
+app.use(challengeRouter)
 
 app.use((req, res, next) => {
     const error = new HttpError('could not find this route', 404)
