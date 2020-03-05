@@ -1,16 +1,17 @@
 const express = require('express');
-const ProductModel = require('../models/ProductModel');
-const app = express();
+var cors = require('cors');
+const productsControllers = require('../controllers/products-controllers');
 
-app.get('/products', async (req, res) => {
-    console.log('products')
-    const products = await ProductModel.find({});
 
-    try {
-        res.send(products);
-    } catch (err) {
-        res.status(500).send(err);
-    }
-});
+const router = express.Router();
 
-module.exports = app
+
+router.get('/products',cors(), productsControllers.getAllProducts)
+router.get('/products/:pid',cors(), productsControllers.getProductById)
+router.get('/category/:cid',cors(), productsControllers.getProductByCategory)
+router.post('/products/add',cors(), productsControllers.addNewProduct)
+router.post('/products/update/:pid',cors(), productsControllers.updatedProduct)
+
+
+
+module.exports = router;
