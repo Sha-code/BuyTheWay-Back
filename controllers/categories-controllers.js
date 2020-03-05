@@ -38,7 +38,7 @@ const updatedCategory = async (req, res, next) => {
 }
 const deletedCategory = async (req, res, next) => {
     CategoryModel.findByIdAndDelete({_id: req.params.cid}).then(function(category){
-      res.send(category);
+      res.json({'category': 'category deleted!'});
     });
     
 }
