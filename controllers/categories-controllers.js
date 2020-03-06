@@ -1,4 +1,5 @@
 const HttpError = require('../models/http-errors');
+const { validationResult }= require('express-validator');
 const CategoryModel = require('../models/CategoryModel');
 
 const getCategoryByGender = async (req, res) => {
@@ -12,6 +13,11 @@ const getCategoryByGender = async (req, res) => {
 };
 
 const addNewCategory = async (req, res, next) => {
+  const fail = validationResult(req);
+  if (!fail.isEmpty()){
+   
+      res.status(422).json({'category':'inputs error'})
+  }
   let category = new CategoryModel(req.body);
   category.save()
     .then(category => {
@@ -22,6 +28,11 @@ const addNewCategory = async (req, res, next) => {
     });
 }
 const updatedCategory = async (req, res, next) => {
+  const fail = validationResult(req);
+  if (!fail.isEmpty()){
+   
+      res.status(422).json({'category':'inputs error'})
+  }
   CategoryModel.findById(req.params.cid, function (err, category) {
     if (!category)
       res.status(404).send("data is not found");

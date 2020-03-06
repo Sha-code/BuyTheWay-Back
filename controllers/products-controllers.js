@@ -1,4 +1,5 @@
 const HttpError = require('../models/http-errors');
+const { validationResult } = require('express-validator');
 const ProductModel = require('../models/ProductModel');
 
 const getAllProducts = async (req, res) => {
@@ -26,6 +27,11 @@ const getProductByCategory = async (req, res) => {
 }
 
 const addNewProduct = async (req, res, next) => {
+  const fail = validationResult(req);
+  if (!fail.isEmpty()){
+   
+      res.status(422).json({'products':'inputs error'})
+  }
   let product = new ProductModel(req.body);
   product.save()
     .then(product => {
@@ -36,6 +42,11 @@ const addNewProduct = async (req, res, next) => {
     });
 }
 const updatedProduct = async (req, res, next) => {
+  const fail = validationResult(req);
+  if (!fail.isEmpty()){
+   
+      res.status(422).json({'products':'inputs error'})
+  }
   ProductModel.findById(req.params.pid, function (err, product) {
     console.log(product)
     if (!product)

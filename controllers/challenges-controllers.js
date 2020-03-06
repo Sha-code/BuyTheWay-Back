@@ -1,4 +1,5 @@
 const HttpError = require ('../models/http-errors');
+const { validationResult } = require('express-validator')
 const ChallengeModel = require('../models/ChallengeModel');
 
 
@@ -15,6 +16,11 @@ const getChallengeById = async (req, res, next) => {
   };
 
 const addNewChallenge = async (req, res, next) => {
+  const fail = validationResult(req);
+  if (!fail.isEmpty()){
+   
+      res.status(422).json({'challenges':'inputs error'})
+  }
   let challenge = new ChallengeModel(req.body);
   challenge.save()
     .then(challenge => {
@@ -25,6 +31,11 @@ const addNewChallenge = async (req, res, next) => {
     });
 }
 const updatedChallenge = async (req, res, next) => {
+  const fail = validationResult(req);
+  if (!fail.isEmpty()){
+   
+      res.status(422).json({'challenges':'inputs error'})
+  }
   ChallengeModel.findById(req.params.cid, function (err, challenge) {
     if (!challenge)
       res.status(404).send("data is not found");
