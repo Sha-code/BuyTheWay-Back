@@ -8,8 +8,8 @@ const router = express.Router();
 
 router.get('/sku/:sid', skuControllers.getSkuById)
 router.post('/sku/add', skuControllers.addNewSku)
-router.post('/sku/updateOne/:sid', skuControllers.updatedSku)
-router.post('/sku/removeAll/:pid', skuControllers.removeSkuByProductId)
+router.post('/sku/update-one/:sid', skuControllers.updatedSku)
+router.delete('/sku/remove-all/:pid', skuControllers.removeSkuByProductId)
 
 
 

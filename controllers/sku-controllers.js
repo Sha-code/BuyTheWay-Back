@@ -14,10 +14,11 @@ const getSkuById = async (req, res, next) => {
     res.json({ sku });
 };
 const addNewSku = async (req, res, next) => {
-    let sku = new SkuModel(req.body);
+    let sku = new SkuModel(req);
     sku.save()
-        .then(product => {
-            res.status(200).json({ 'SKU': 'sku added successfully' });
+        .then(sku => {
+            console.log("sku added successfully");
+            // res.status(200).json({ 'SKU': 'sku added successfully' });
         })
         .catch(err => {
             next(new HttpError('adding new sku failed'), 400);
@@ -40,13 +41,18 @@ const updatedSku = async (req, res, next) => {
             });
     });
 }
-const removeSkuByProductId = async (req, res) => {
-    console.log(req.params.pid);
-
-    SkuModel.deleteMany({ "productId": req.params.pid },
-        function (err) {
-            console.log("not remove", err)
+const removeSkuByProductId = async (req, res, next) => {
+    req = req.toString();
+    SkuModel.deleteMany({ "productId": req },
+        function (err, response) {
+            if (!response)
+                next(new HttpError('skus are not found'), 404);
+            else
+                res.status(200).send("skus and product are removed");
         })
+        .catch(err => {
+            next(new HttpError('remove all sku failed'), 400);
+        });
 }
 
 exports.getSkuById = getSkuById;

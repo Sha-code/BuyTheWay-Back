@@ -7,6 +7,7 @@ const router = express.Router();
 
 
 router.get('/user/:uid', usersControllers.getUserById)
+
 router.post('/user/add',[
     check('nickname')
         .not()
@@ -26,7 +27,7 @@ router.post('/user/update/:uid',
         .isEmail(),
     check('password').isLength({ min:6 })
 ], usersControllers.updatedUser)
-router.post('/user/remove/:uid', usersControllers.removeUserById)
+router.delete('/user/remove/:uid', usersControllers.removeUserById)
 
 
 module.exports = router;

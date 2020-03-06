@@ -13,7 +13,7 @@ const SkuSchema = new mongoose.Schema({
         required: true,
     },
     productId: {
-        type: String,
+        type: Number,
         required: true,
     }
 

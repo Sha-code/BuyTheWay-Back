@@ -1,6 +1,8 @@
 const HttpError = require('../models/http-errors');
 const { validationResult } = require('express-validator');
 const ProductModel = require('../models/ProductModel');
+const skuControllers = require('../controllers/sku-controllers');
+
 
 const getAllProducts = async (req, res) => {
   const products = await ProductModel.find({});
@@ -33,12 +35,43 @@ const addNewProduct = async (req, res, next) => {
       res.status(422).json({'products':'inputs error'})
   }
   let product = new ProductModel(req.body);
+  console.log(product)
   product.save()
     .then(product => {
-      res.status(200).json({ 'product': 'product added successfully' });
+      let sizeQuantity = [
+        { "size": "XS", "quantity": "15" },
+        { "size": "S", "quantity": "30" },
+        { "size": "M", "quantity": "35" },
+        { "size": "L", "quantity": "30" },
+        { "size": "XL", "quantity": "15" }
+      ]
+      sizeQuantity.map((item) => {
+        skuControllers.addNewSku(({
+          "size": item.size,
+          "quantity": item.quantity,
+          "productId": product.sku
+        }), res, next)
+      })
+
+      res.status(200).json({ 'product': 'product and skus added successfully' });
     })
     .catch(err => {
       next(new HttpError('adding new product failed'), 400);
+    });
+}
+const removeProductById = async (req, res, next) => {
+  ProductModel.findByIdAndRemove(req.params.pid, function (err, product) {
+    console.log(product)
+    if (!product)
+      next(new HttpError('product is not found'), 404);
+    else {
+      console.log(product.sku)
+      skuControllers.removeSkuByProductId((product.sku), res, next)
+      // res.status(200).send("product is removed");
+    }
+  })
+    .catch(err => {
+      next(new HttpError('removing product failed'), 400);
     });
 }
 const updatedProduct = async (req, res, next) => {
@@ -66,18 +99,7 @@ const updatedProduct = async (req, res, next) => {
       });
   });
 }
-const removeProductById = async (req, res, next) => {
-  ProductModel.findByIdAndRemove(req.params.pid, function (err, product) {
-    console.log(product)
-    if (!product)
-      next(new HttpError('product is not found'), 404);
-    else
-      res.status(200).send("product is removed");
-  })
-    .catch(err => {
-      next(new HttpError('removing product failed'), 400);
-    });
-}
+
 
 exports.getAllProducts = getAllProducts;
 exports.getProductById = getProductById;

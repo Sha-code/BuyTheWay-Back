@@ -16,7 +16,7 @@ router.post('/products/add',[
         .isEmpty(),
 ], productsControllers.addNewProduct)
 router.post('/products/update/:pid', productsControllers.updatedProduct)
-router.post('/products/remove/:pid', productsControllers.removeProductById)
+router.delete('/products/remove/:pid', productsControllers.removeProductById)
 
 
 
