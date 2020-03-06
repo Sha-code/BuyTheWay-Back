@@ -29,6 +29,7 @@ const getProductByCategory = async (req, res) => {
 
 const addNewProduct = async (req, res, next) => {
   let product = new ProductModel(req.body);
+  console.log(product)
   product.save()
     .then(product => {
       let sizeQuantity = [

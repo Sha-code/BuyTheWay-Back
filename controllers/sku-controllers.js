@@ -48,7 +48,7 @@ const removeSkuByProductId = async (req, res, next) => {
             if (!response)
                 next(new HttpError('skus are not found'), 404);
             else
-                res.status(200).send("skus are removed");
+                res.status(200).send("skus and product are removed");
         })
         .catch(err => {
             next(new HttpError('remove all sku failed'), 400);

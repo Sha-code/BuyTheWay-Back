@@ -11,7 +11,7 @@ router.get('/products/:pid', productsControllers.getProductById)
 router.get('/category/:cid', productsControllers.getProductByCategory)
 router.post('/products/add', productsControllers.addNewProduct)
 router.post('/products/update/:pid', productsControllers.updatedProduct)
-router.post('/products/remove/:pid', productsControllers.removeProductById)
+router.delete('/products/remove/:pid', productsControllers.removeProductById)
 
 
 

@@ -45,7 +45,7 @@ const updatedUser = async (req, res, next) => {
   });
 }
 const removeUserById = async (req, res, next) => {
-  UserModel.findByIdAndRemove(req.params.uid, function (err, user) {
+  UserModel.findOneAndDelete({ "_id": req.params.uid }, function (err, user) {
     console.log(user)
     if (!user)
       next(new HttpError('user is not found'), 404);
