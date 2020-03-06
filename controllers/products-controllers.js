@@ -38,9 +38,7 @@ const addNewProduct = async (req, res, next) => {
         { "size": "L", "quantity": "30" },
         { "size": "XL", "quantity": "15" }
       ]
-      console.log(product, product.sku);
       sizeQuantity.map((item) => {
-        console.log(item)
         skuControllers.addNewSku(({
           "size": item.size,
           "quantity": item.quantity,
@@ -48,7 +46,7 @@ const addNewProduct = async (req, res, next) => {
         }), res, next)
       })
 
-      // res.status(200).json({ 'product': 'product added successfully' });
+      res.status(200).json({ 'product': 'product and skus added successfully' });
     })
     .catch(err => {
       next(new HttpError('adding new product failed'), 400);

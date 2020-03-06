@@ -14,15 +14,11 @@ const getSkuById = async (req, res, next) => {
     res.json({ sku });
 };
 const addNewSku = async (req, res, next) => {
-    console.log(req);
-    console.log(req.body);
-
     let sku = new SkuModel(req);
-    console.log(sku);
     sku.save()
         .then(sku => {
-            console.log("je passe dans le then add sku");
-            res.status(200).json({ 'SKU': 'sku added successfully' });
+            console.log("sku added successfully");
+            // res.status(200).json({ 'SKU': 'sku added successfully' });
         })
         .catch(err => {
             next(new HttpError('adding new sku failed'), 400);
@@ -49,7 +45,6 @@ const removeSkuByProductId = async (req, res, next) => {
     req = req.toString();
     SkuModel.deleteMany({ "productId": req },
         function (err, response) {
-            console.log(response)
             if (!response)
                 next(new HttpError('skus are not found'), 404);
             else
