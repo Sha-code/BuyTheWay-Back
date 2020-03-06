@@ -13,6 +13,14 @@ const getSkuById = async (req, res, next) => {
     }
     res.json({ sku });
 };
+const getSkuByProductId = async (req, res, next) => {
+    const skus = await SkuModel.find({ "productId": Number(req.params.pid) })
+    console.log(skus)
+    if (skus === null) {
+        return next(new HttpError('could not find skus with this productId'), 404);
+    }
+    res.json({ skus });
+}
 const addNewSku = async (req, res, next) => {
     let sku = new SkuModel(req);
     sku.save()
@@ -59,3 +67,4 @@ exports.getSkuById = getSkuById;
 exports.addNewSku = addNewSku;
 exports.updatedSku = updatedSku;
 exports.removeSkuByProductId = removeSkuByProductId;
+exports.getSkuByProductId = getSkuByProductId;
