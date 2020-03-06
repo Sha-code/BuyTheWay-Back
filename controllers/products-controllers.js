@@ -1,5 +1,7 @@
 const HttpError = require('../models/http-errors');
 const ProductModel = require('../models/ProductModel');
+const skuControllers = require('../controllers/sku-controllers');
+
 
 const getAllProducts = async (req, res) => {
   const products = await ProductModel.find({});
@@ -29,7 +31,24 @@ const addNewProduct = async (req, res, next) => {
   let product = new ProductModel(req.body);
   product.save()
     .then(product => {
-      res.status(200).json({ 'product': 'product added successfully' });
+      let sizeQuantity = [
+        { "size": "XS", "quantity": "15" },
+        { "size": "S", "quantity": "30" },
+        { "size": "M", "quantity": "35" },
+        { "size": "L", "quantity": "30" },
+        { "size": "XL", "quantity": "15" }
+      ]
+      console.log(product, product.sku);
+      sizeQuantity.map((item) => {
+        console.log(item)
+        skuControllers.addNewSku(({
+          "size": item.size,
+          "quantity": item.quantity,
+          "productId": product.sku
+        }), res, next)
+      })
+
+      // res.status(200).json({ 'product': 'product added successfully' });
     })
     .catch(err => {
       next(new HttpError('adding new product failed'), 400);

@@ -14,9 +14,14 @@ const getSkuById = async (req, res, next) => {
     res.json({ sku });
 };
 const addNewSku = async (req, res, next) => {
-    let sku = new SkuModel(req.body);
+    console.log(req);
+    console.log(req.body);
+
+    let sku = new SkuModel(req);
+    console.log(sku);
     sku.save()
-        .then(product => {
+        .then(sku => {
+            console.log("je passe dans le then add sku");
             res.status(200).json({ 'SKU': 'sku added successfully' });
         })
         .catch(err => {
