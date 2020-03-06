@@ -45,8 +45,9 @@ const updatedSku = async (req, res, next) => {
             });
     });
 }
-const removeSkuByProductId = async (req, res) => {
-    SkuModel.deleteMany({ "productId": req.params.pid },
+const removeSkuByProductId = async (req, res, next) => {
+    req = req.toString();
+    SkuModel.deleteMany({ "productId": req },
         function (err, response) {
             console.log(response)
             if (!response)
