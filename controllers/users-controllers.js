@@ -53,7 +53,7 @@ const removeUserById = async (req, res, next) => {
       res.status(200).send("user is removed");
   })
     .catch(err => {
-      next(new HttpError('user product failed'), 400);
+      next(new HttpError('remove user failed'), 400);
     });
 }
 
