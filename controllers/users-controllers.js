@@ -1,7 +1,8 @@
+const { validationResult }= require('express-validator');
 const HttpError = require('../models/http-errors');
 const UserModel = require('../models/UserModel');
 
-const getUserById = async (req, res) => {
+const getUserById = async (req, res, next) => {
   const userId = req.params.uid;
   if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
     return next(new HttpError('This is not a valid id'), 404);
@@ -14,6 +15,11 @@ const getUserById = async (req, res) => {
   res.json({ user });
 };
 const addNewUser = async (req, res, next) => {
+  const fail = validationResult(req);
+  if (!fail.isEmpty()){
+   
+      res.status(422).json({'users':'inputs error'})
+  }
   let user = new UserModel(req.body);
   user.save()
     .then(product => {
@@ -24,6 +30,11 @@ const addNewUser = async (req, res, next) => {
     });
 }
 const updatedUser = async (req, res, next) => {
+  const fail = validationResult(req);
+  if (!fail.isEmpty()){
+   
+      res.status(422).json({'users':'inputs error'})
+  }
   UserModel.findById(req.params.uid, function (err, user) {
     console.log(user)
     if (!user)
