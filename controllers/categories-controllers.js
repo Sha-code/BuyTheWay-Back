@@ -1,5 +1,5 @@
 const HttpError = require('../models/http-errors');
-const { validationResult }= require('express-validator');
+const { validationResult } = require('express-validator');
 const CategoryModel = require('../models/CategoryModel');
 
 const getCategoryByGender = async (req, res) => {
@@ -14,9 +14,9 @@ const getCategoryByGender = async (req, res) => {
 
 const addNewCategory = async (req, res, next) => {
   const fail = validationResult(req);
-  if (!fail.isEmpty()){
-   
-      res.status(422).json({'category':'inputs error'})
+  if (!fail.isEmpty()) {
+
+    res.status(422).json({ 'category': 'inputs error' })
   }
   let category = new CategoryModel(req.body);
   category.save()
@@ -24,14 +24,14 @@ const addNewCategory = async (req, res, next) => {
       res.status(200).json({ 'category': 'category added successfully' });
     })
     .catch(err => {
-      next(new HttpError('adding new product failed'), 400);
+      next(new HttpError('adding new category failed'), 400);
     });
 }
 const updatedCategory = async (req, res, next) => {
   const fail = validationResult(req);
-  if (!fail.isEmpty()){
-   
-      res.status(422).json({'category':'inputs error'})
+  if (!fail.isEmpty()) {
+
+    res.status(422).json({ 'category': 'inputs error' })
   }
   CategoryModel.findById(req.params.cid, function (err, category) {
     if (!category)
@@ -43,7 +43,7 @@ const updatedCategory = async (req, res, next) => {
       res.json('category updated!');
     })
       .catch(err => {
-        next(new HttpError('updating product failed'), 400);
+        next(new HttpError('updating category failed'), 400);
       });
   });
 }
