@@ -8,15 +8,30 @@ const router = express.Router();
 
 router.get('/user/:uid', usersControllers.getUserById)
 
-router.post('/user/add',[
-    check('nickname')
+
+router.post(
+    '/user/signup',
+    [
+      check('nickname')
         .not()
         .isEmpty(),
-    check('mail')  
+      check('mail')
         .normalizeEmail()
         .isEmail(),
-    check('password').isLength({ min:6 })
-],usersControllers.addNewUser)
+      check('password').isLength({ min: 6 })
+    ],
+    usersControllers.signup
+  );
+
+// router.post('/user/add',[
+//     check('nickname')
+//         .not()
+//         .isEmpty(),
+//     check('mail')  
+//         .normalizeEmail()
+//         .isEmail(),
+//     check('password').isLength({ min:6 })
+// ],usersControllers.addNewUser)
 router.post('/user/update/:uid',
 [
     check('nickname')

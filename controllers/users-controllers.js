@@ -17,6 +17,7 @@ const getUserById = async (req, res, next) => {
   res.json({ user });
 };
 const signup = async (req, res, next) => {
+  
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -24,11 +25,12 @@ const signup = async (req, res, next) => {
     );
   }
 
-  const { name, email, password } = req.body;
+  const { nickname, mail, password } = req.body;
 
   let existingUser;
   try {
-    existingUser = await User.findOne({ email: email });
+    existingUser = await UserModel.findOne({ mail: mail });
+    console.log(existingUser);
   } catch (err) {
     const error = new HttpError(
       'Signing up failed, please try again later.',
@@ -56,12 +58,10 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 
-  const createdUser = new User({
-    name,
-    email,
-    image: req.file.path,
+  const createdUser = new UserModel({
+    nickname,
+    mail,
     password: hashedPassword,
-    places: []
   });
 
   try {
@@ -77,7 +77,7 @@ const signup = async (req, res, next) => {
   let token;
   try {
     token = jwt.sign(
-      { userId: createdUser.id, email: createdUser.email },
+      { userNickname: createdUser.id, mail: createdUser.mail },
       'supersecret_dont_share',
       { expiresIn: '1h' }
     );
@@ -91,7 +91,7 @@ const signup = async (req, res, next) => {
 
   res
     .status(201)
-    .json({ userId: createdUser.id, email: createdUser.email, token: token });
+    .json({ userNickname: createdUser.id, mail: createdUser.email, token: token });
 };
 
 const login = async (req, res, next) => {
@@ -212,6 +212,8 @@ const removeUserById = async (req, res, next) => {
 }
 
 exports.getUserById = getUserById;
-exports.addNewUser = addNewUser;
+// exports.addNewUser = addNewUser;
 exports.updatedUser = updatedUser;
 exports.removeUserById = removeUserById;
+exports.signup= signup;
+exports.login=login;
