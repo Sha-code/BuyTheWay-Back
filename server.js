@@ -13,7 +13,7 @@ const HttpError = require('./models/http-errors')
 const app = express();
 const uri = "mongodb+srv://ByTheWay:bythewayproject@bytheway-qybxr.mongodb.net/bytheway?retryWrites=true&w=majority"
 
-const whitelist= ['http://18.212.196.17/','http://localhost/'];
+const whitelist= ['http://18.212.196.17/','http://localhost:8080/','http://localhost:8020/','http://localhost:3000/'];
 const corsOptions = {
     origin: function(origin, callback){
         if(!origin) return callback(null, true);
