@@ -31,7 +31,7 @@ const uri = "mongodb+srv://ByTheWay:bythewayproject@bytheway-qybxr.mongodb.net/b
 //     });
 // });
 
-const whitelist = ['http://18.212.196.17/', 'http://localhost:8080/', 'http://localhost:8020/', 'http://localhost:3000/'];
+const whitelist = ['http://18.212.196.17/', 'http://localhost:8080', 'http://localhost:8020', 'http://localhost:3000'];
 const corsOptions = {
     origin: (origin, callback) => {
         console.log(origin)
@@ -45,7 +45,7 @@ const corsOptions = {
 
 
 app.use(bodyParser.json());
-
+app.use(cors(corsOptions));
 
 
 mongoose.connect(uri, {
@@ -74,6 +74,4 @@ app.use((error, req, res, next) => {
     res.json({ message: error.message || 'An unknow error occured!' });
 });
 
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions))
 app.listen(3000, () => { console.log('Server is running...') });
