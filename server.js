@@ -30,7 +30,7 @@ const uri = "mongodb+srv://ByTheWay:bythewayproject@bytheway-qybxr.mongodb.net/b
 //         res.send();
 //     });
 // });
-const whitelist = ['http://18.212.196.17/', 'http://localhost:8080/', 'http://localhost:8020/', 'http://localhost:3000/'];
+const whitelist = ['http://18.212.196.17', 'http://localhost:8080', 'http://localhost:8020', 'http://localhost:3000'];
 const corsOptions = {
     origin: function (origin, callback) {
         if (whitelist.indexOf(origin) !== -1 || !origin) {
