@@ -43,8 +43,7 @@ const corsOptions = {
 
 
 app.use(bodyParser.json());
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions))
+
 
 mongoose.connect(uri, {
     useNewUrlParser: true,
@@ -72,4 +71,6 @@ app.use((error, req, res, next) => {
     res.json({ message: error.message || 'An unknow error occured!' });
 });
 
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions))
 app.listen(3000, () => { console.log('Server is running...') });
