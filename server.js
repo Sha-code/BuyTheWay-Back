@@ -14,7 +14,7 @@ const app = express();
 const uri = "mongodb+srv://ByTheWay:bythewayproject@bytheway-qybxr.mongodb.net/bytheway?retryWrites=true&w=majority"
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://18.212.196.17/', 'http://localhost:8080/', 'http://localhost:8020/', 'http://localhost:3000/');
+    res.header('Access-Control-Allow-Origin', 'http://18.212.196.17/ http://localhost:8080/ http://localhost:8020/ http://localhost:3000/');
 
     // authorized headers for preflight requests
     // https://developer.mozilla.org/en-US/docs/Glossary/preflight_request
