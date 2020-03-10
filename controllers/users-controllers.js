@@ -109,16 +109,15 @@ const login = async (req, res, next) => {
   const { mail, password } = req.body;
 
   let existingUser;
-
   try {
-    existingUser = await User.findOne({ mail: mail });
+    existingUser = await UserModel.findOne({ mail: mail });
   } catch (err) {
     const error = new HttpError(
       'Logging in failed, please try again later.',
       500
-    );
-    return next(error);
-  }
+      );
+      return next(error);
+    }
 
   if (!existingUser) {
     const error = new HttpError(
@@ -161,7 +160,6 @@ const login = async (req, res, next) => {
     );
     return next(error);
   }
-
   res.json({
     userId: existingUser.id,
     mail: existingUser.mail,
@@ -176,7 +174,6 @@ const updatedUser = async (req, res, next) => {
     res.status(422).json({ 'users': 'inputs error' })
   }
   UserModel.findById(req.params.uid, function (err, user) {
-    console.log(user)
     if (!user)
       res.status(404).send("user is not found");
     else
@@ -209,7 +206,6 @@ const removeUserById = async (req, res, next) => {
 }
 
 exports.getUserById = getUserById;
-// exports.addNewUser = addNewUser;
 exports.updatedUser = updatedUser;
 exports.removeUserById = removeUserById;
 exports.signup= signup;

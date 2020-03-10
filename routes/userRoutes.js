@@ -42,6 +42,7 @@ router.post('/user/update/:uid',
         .isEmail(),
     check('password').isLength({ min:6 })
 ], usersControllers.updatedUser)
+router.post('/user/login', usersControllers.login);
 router.delete('/user/remove/:uid', usersControllers.removeUserById)
 
 
