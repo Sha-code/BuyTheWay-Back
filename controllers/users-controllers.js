@@ -17,7 +17,6 @@ const getUserById = async (req, res, next) => {
   res.json({ user });
 };
 const signup = async (req, res, next) => {
-  
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -25,12 +24,13 @@ const signup = async (req, res, next) => {
     );
   }
 
-  const { nickname, mail, password } = req.body;
-
+  const { nickname, mail, password, } = req.body;
+  
+  console.log(mail)
   let existingUser;
-  try {
-    existingUser = await UserModel.findOne({ mail: mail });
-    console.log(existingUser);
+  try{
+  existingUser = await UserModel.findOne({ 'mail': mail});
+
   } catch (err) {
     const error = new HttpError(
       'Signing up failed, please try again later.',
@@ -38,8 +38,9 @@ const signup = async (req, res, next) => {
     );
     return next(error);
   }
-
+ 
   if (existingUser) {
+    
     const error = new HttpError(
       'User exists already, please login instead.',
       422
@@ -49,7 +50,10 @@ const signup = async (req, res, next) => {
 
   let hashedPassword;
   try {
+
     hashedPassword = await bcrypt.hash(password, 12);
+    console.log(hashedPassword)
+
   } catch (err) {
     const error = new HttpError(
       'Could not create user, please try again.',
@@ -59,12 +63,18 @@ const signup = async (req, res, next) => {
   }
 
   const createdUser = new UserModel({
-    nickname,
-    mail,
-    password: hashedPassword,
+    "nickname": nickname,
+    "mail": mail,
+    "password": hashedPassword,
+    "rank": "nOOb",
+    "role": "user",
+    "fidelity": 0,
+    "customer": [{}]
   });
 
   try {
+    console.log("3try");
+
     await createdUser.save();
   } catch (err) {
     const error = new HttpError(
@@ -76,6 +86,8 @@ const signup = async (req, res, next) => {
 
   let token;
   try {
+    console.log("4try");
+
     token = jwt.sign(
       { userNickname: createdUser.id, mail: createdUser.mail },
       'supersecret_dont_share',
