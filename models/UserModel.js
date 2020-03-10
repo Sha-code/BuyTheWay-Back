@@ -31,15 +31,15 @@ const UserSchema = new mongoose.Schema({
     customer: {
         name: {
             type: String,
-            required: true,
+            required: false,
         },
         surname: {
             type: String,
-            required: true,
+            required: false,
         },
         address: {
             type: String,
-            required: true,
+            required: false,
         },
         address_bis: {
             type: String,
@@ -47,15 +47,15 @@ const UserSchema = new mongoose.Schema({
         },
         city: {
             type: String,
-            required: true,
+            required: false,
         },
         postal_code: {
             type: Number,
-            required: true,
+            required: false,
         },
         country: {
             type: String,
-            required: true,
+            required: false,
         },
     }
 
