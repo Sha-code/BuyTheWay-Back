@@ -68,8 +68,7 @@ const signup = async (req, res, next) => {
     "password": hashedPassword,
     "rank": "nOOb",
     "role": "user",
-    "fidelity": 0,
-    "customer": [{}]
+    "fidelity": 0
   });
 
   try {
@@ -103,16 +102,16 @@ const signup = async (req, res, next) => {
 
   res
     .status(201)
-    .json({ userNickname: createdUser.id, mail: createdUser.email, token: token });
+    .json({ userId: createdUser.id, mail: createdUser.mail, token: token });
 };
 
 const login = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { mail, password } = req.body;
 
   let existingUser;
 
   try {
-    existingUser = await User.findOne({ email: email });
+    existingUser = await User.findOne({ mail: mail });
   } catch (err) {
     const error = new HttpError(
       'Logging in failed, please try again later.',
@@ -151,7 +150,7 @@ const login = async (req, res, next) => {
   let token;
   try {
     token = jwt.sign(
-      { userId: existingUser.id, email: existingUser.email },
+      { userId: existingUser.id, mail: existingUser.mail },
       'supersecret_dont_share',
       { expiresIn: '1h' }
     );
@@ -165,25 +164,11 @@ const login = async (req, res, next) => {
 
   res.json({
     userId: existingUser.id,
-    email: existingUser.email,
+    mail: existingUser.mail,
     token: token
   });
 };
-// const addNewUser = async (req, res, next) => {
-//   const fail = validationResult(req);
-//   if (!fail.isEmpty()) {
 
-//     res.status(422).json({ 'users': 'inputs error' })
-//   }
-//   let user = new UserModel(req.body);
-//   user.save()
-//     .then(user => {
-//       res.status(200).json({ 'user': 'user added successfully' });
-//     })
-//     .catch(err => {
-//       next(new HttpError('adding new user failed'), 400);
-//     });
-// }
 const updatedUser = async (req, res, next) => {
   const fail = validationResult(req);
   if (!fail.isEmpty()) {
