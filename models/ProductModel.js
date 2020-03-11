@@ -17,6 +17,10 @@ const ProductSchema = new mongoose.Schema({
         required: true,
 
     },
+    tendance: {
+        type: Boolean,
+        required: false,
+    },
     price: {
         type: String,
         required: true,

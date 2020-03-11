@@ -8,6 +8,7 @@ const router = express.Router();
 
 
 router.get('/products', productsControllers.getAllProducts)
+router.get('/products/tendance', productsControllers.getProductByTendance)
 router.get('/products/:pid', productsControllers.getProductById)
 router.get('/category/:cid', productsControllers.getProductByCategory)
 // TODO router.use(checkAuth);
@@ -17,6 +18,7 @@ router.post('/products/add',[
         .isEmpty(),
 ], productsControllers.addNewProduct)
 router.post('/products/update/:pid', productsControllers.updatedProduct)
+router.post('/products/switch/:pid', productsControllers.updatedTendance)
 router.delete('/products/remove/:pid', productsControllers.removeProductById)
 
 

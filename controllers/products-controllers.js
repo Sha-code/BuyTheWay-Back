@@ -8,8 +8,14 @@ const getAllProducts = async (req, res) => {
   const products = await ProductModel.find({});
   res.json({ products });
 };
+const getProductByTendance = async (req, res) => {
+  console.log('tendance')
+  const tendances = await ProductModel.find({ 'tendance': true });
+  res.json({ tendances });
+};
 
 const getProductById = async (req, res, next) => {
+  console.log("je fais une recherche by id")
   const productId = req.params.pid;
   if (!productId.match(/^[0-9a-fA-F]{24}$/)) {
     return next(new HttpError('could not find an article with this id, it does not corresponding to norms'), 404);
@@ -27,6 +33,7 @@ const getProductByCategory = async (req, res) => {
   const category = await ProductModel.find({ 'category.id': categoryId });
   res.json({ category });
 }
+
 
 const addNewProduct = async (req, res, next) => {
   const fail = validationResult(req);
@@ -100,12 +107,30 @@ const updatedProduct = async (req, res, next) => {
   });
 }
 
+const updatedTendance = async (req, res, next) => {
+    product = await ProductModel.findById(req.params.pid);
+    console.log( product.tendance)
+    if(product.tendance){
+        ProductModel.update({_id:req.params.pid},{$set:{tendance: false}})
+        product = await ProductModel.findById(req.params.pid);
+        console.log('tendance false', product);
+        
+    }else{
+      ProductModel.update({_id:req.params.pid},{$set:{tendance: true}})
+      console.log('tendance true');
+      
+    }
+}
+
 
 exports.getAllProducts = getAllProducts;
 exports.getProductById = getProductById;
 exports.getProductByCategory = getProductByCategory;
+exports.getProductByTendance = getProductByTendance;
 exports.addNewProduct = addNewProduct;
 exports.updatedProduct = updatedProduct;
+exports.updatedTendance =updatedTendance;
 exports.removeProductById = removeProductById;
+
 
 
