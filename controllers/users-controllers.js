@@ -17,6 +17,7 @@ const getUserById = async (req, res, next) => {
   res.json({ user });
 };
 const signup = async (req, res, next) => {
+  console.log('enter in signuup');
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -25,11 +26,11 @@ const signup = async (req, res, next) => {
   }
 
   const { nickname, mail, password, } = req.body;
-  
+
   console.log(mail)
   let existingUser;
-  try{
-  existingUser = await UserModel.findOne({ 'mail': mail});
+  try {
+    existingUser = await UserModel.findOne({ 'mail': mail });
 
   } catch (err) {
     const error = new HttpError(
@@ -38,9 +39,9 @@ const signup = async (req, res, next) => {
     );
     return next(error);
   }
- 
+
   if (existingUser) {
-    
+
     const error = new HttpError(
       'User exists already, please login instead.',
       422
@@ -115,9 +116,9 @@ const login = async (req, res, next) => {
     const error = new HttpError(
       'Logging in failed, please try again later.',
       500
-      );
-      return next(error);
-    }
+    );
+    return next(error);
+  }
 
   if (!existingUser) {
     const error = new HttpError(
@@ -208,5 +209,5 @@ const removeUserById = async (req, res, next) => {
 exports.getUserById = getUserById;
 exports.updatedUser = updatedUser;
 exports.removeUserById = removeUserById;
-exports.signup= signup;
-exports.login=login;
+exports.signup = signup;
+exports.login = login;
