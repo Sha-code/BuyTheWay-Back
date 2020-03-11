@@ -11,8 +11,8 @@ router.get('/products', productsControllers.getAllProducts)
 router.get('/products/:pid', productsControllers.getProductById)
 router.get('/category/:cid', productsControllers.getProductByCategory)
 // TODO router.use(checkAuth);
-router.post('/products/add',[
-    check('sku','name','description','price','picture','category')
+router.post('/products/add', [
+    check('sku', 'name', 'description', 'price', 'picture', 'category')
         .not()
         .isEmpty(),
 ], productsControllers.addNewProduct)

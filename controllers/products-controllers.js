@@ -30,9 +30,9 @@ const getProductByCategory = async (req, res) => {
 
 const addNewProduct = async (req, res, next) => {
   const fail = validationResult(req);
-  if (!fail.isEmpty()){
-   
-      res.status(422).json({'products':'inputs error'})
+  if (!fail.isEmpty()) {
+
+    res.status(422).json({ 'products': 'inputs error' })
   }
   let product = new ProductModel(req.body);
   console.log(product)
@@ -76,9 +76,9 @@ const removeProductById = async (req, res, next) => {
 }
 const updatedProduct = async (req, res, next) => {
   const fail = validationResult(req);
-  if (!fail.isEmpty()){
-   
-      res.status(422).json({'products':'inputs error'})
+  if (!fail.isEmpty()) {
+
+    res.status(422).json({ 'products': 'inputs error' })
   }
   ProductModel.findById(req.params.pid, function (err, product) {
     console.log(product)
