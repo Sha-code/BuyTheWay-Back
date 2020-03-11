@@ -108,18 +108,22 @@ const updatedProduct = async (req, res, next) => {
 }
 
 const updatedTendance = async (req, res, next) => {
+
+    let tendance;
     product = await ProductModel.findById(req.params.pid);
-    console.log( product.tendance)
-    if(product.tendance){
-        ProductModel.update({_id:req.params.pid},{$set:{tendance: false}})
-        product = await ProductModel.findById(req.params.pid);
-        console.log('tendance false', product);
-        
-    }else{
-      ProductModel.update({_id:req.params.pid},{$set:{tendance: true}})
-      console.log('tendance true');
-      
+    console.log(product.tendance);
+    if (product.tendance ==="true") {
+      console.log('je suis une tendance true')
+      tendance = "false";
+    } else {
+      console.log('je suis une tendance false')
+      tendance = "true";
     }
+    console.log(tendance);
+    ProductModel.updateOne({ _id: req.params.pid },{"$set":{"tendance": tendance}})
+  .then(ProductModel => res.json(ProductModel))
+  .catch(err => res.status(422).json(err));
+
 }
 
 
