@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 
 const CategorySchema = new mongoose.Schema({
-    
-
+  
+  customId:{
+        type: Number
+    },
     name: {
         type: String,
         required: true,
