@@ -1,11 +1,11 @@
 const express = require('express');
 const skuControllers = require('../controllers/sku-controllers');
-
+const checkAuth = require('../middleware/check-auth');
 
 const router = express.Router();
 
 
-
+router.use(checkAuth);
 router.get('/sku/:sid', skuControllers.getSkuById)
 router.get('/skus-by-product/:pid', skuControllers.getSkuByProductId)
 router.post('/sku/add', skuControllers.addNewSku)

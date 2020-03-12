@@ -2,13 +2,12 @@ const express = require('express');
 const { check } = require('express-validator')
 
 const usersControllers = require('../controllers/users-controllers');
+const checkAuth = require('../middleware/check-auth');
 
 const router = express.Router();
 
-
+router.use(checkAuth);
 router.get('/user/:uid', usersControllers.getUserById)
-
-
 router.post(
     '/user/signup',
     [
@@ -23,15 +22,6 @@ router.post(
     usersControllers.signup
   );
 
-// router.post('/user/add',[
-//     check('nickname')
-//         .not()
-//         .isEmpty(),
-//     check('mail')  
-//         .normalizeEmail()
-//         .isEmail(),
-//     check('password').isLength({ min:6 })
-// ],usersControllers.addNewUser)
 router.post('/user/update/:uid',
 [
     check('nickname')
