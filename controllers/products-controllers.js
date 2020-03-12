@@ -22,7 +22,7 @@ const getProductById = async (req, res, next) => {
   }
   const product = await ProductModel.findById(productId);
   if (product === null) {
-    console.log('le produit ne peut etre trouver avec cet id', product)
+    console.log('le produit ne peut etre trouver avec cet id', product);
     return next(new HttpError('could not find an article with this id'), 404);
   }
   res.json({ product });
@@ -33,7 +33,13 @@ const getProductByCategory = async (req, res) => {
   const category = await ProductModel.find({ 'category.id': categoryId });
   res.json({ category });
 }
-
+const getProductByDate = async (req, res) => {
+  console.log("je fais une recherche by date");
+  ProductModel.find({}).sort({created_at: -1}).limit(7).exec(function (err, date){
+    console.log(date);
+    res.json({ date });
+  });
+};
 
 const addNewProduct = async (req, res, next) => {
   const fail = validationResult(req);
@@ -131,6 +137,7 @@ exports.getAllProducts = getAllProducts;
 exports.getProductById = getProductById;
 exports.getProductByCategory = getProductByCategory;
 exports.getProductByTendance = getProductByTendance;
+exports.getProductByDate = getProductByDate;
 exports.addNewProduct = addNewProduct;
 exports.updatedProduct = updatedProduct;
 exports.updatedTendance =updatedTendance;
