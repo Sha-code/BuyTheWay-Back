@@ -12,7 +12,8 @@ router.get('/products/tendance', productsControllers.getProductByTendance)
 router.get('/products/:pid', productsControllers.getProductById)
 router.get('/category/:cid', productsControllers.getProductByCategory)
 router.get('/date', productsControllers.getProductByDate)
-// TODO router.use(checkAuth);
+router.get('/random', productsControllers.getRandomProducts)
+router.use(checkAuth);
 router.post('/products/add', [
     check('sku', 'name', 'description', 'price', 'picture', 'category')
         .not()

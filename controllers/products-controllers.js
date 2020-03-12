@@ -40,6 +40,14 @@ const getProductByDate = async (req, res) => {
     res.json({ date });
   });
 };
+const getRandomProducts = async (req,res) => {
+  console.log("je fais un random");
+  R = Math.floor(Math.random() * 50)
+  ProductModel.find({}).limit(5).skip(R).exec(function (err,random){
+    res.json({ random });
+  })
+
+};
 
 const addNewProduct = async (req, res, next) => {
   const fail = validationResult(req);
@@ -138,6 +146,7 @@ exports.getProductById = getProductById;
 exports.getProductByCategory = getProductByCategory;
 exports.getProductByTendance = getProductByTendance;
 exports.getProductByDate = getProductByDate;
+exports.getRandomProducts = getRandomProducts;
 exports.addNewProduct = addNewProduct;
 exports.updatedProduct = updatedProduct;
 exports.updatedTendance =updatedTendance;
