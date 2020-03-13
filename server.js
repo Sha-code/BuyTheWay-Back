@@ -7,6 +7,7 @@ const productRouter = require('./routes/productRoutes');
 const userRouter = require('./routes/userRoutes');
 const categoryRouter = require('./routes/categoryRoutes');
 const challengeRouter = require('./routes/challengeRoutes');
+const cartRouter = require('./routes/cartRoutes')
 const skuRouter = require('./routes/skuRoutes');
 const HttpError = require('./models/http-errors');
 
@@ -40,8 +41,9 @@ mongoose.connect(uri, {
 app.use(productRouter);
 app.use(userRouter);
 app.use(categoryRouter);
-app.use(challengeRouter)
-app.use(skuRouter)
+app.use(challengeRouter);
+app.use(skuRouter);
+app.use(cartRouter);
 
 app.use((req, res, next) => {
     const error = new HttpError('could not find this route', 404)
