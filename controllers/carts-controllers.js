@@ -4,7 +4,7 @@ const {
 } = require('express-validator');
 const CartModel = require('../models/CartModel');
 const {
-  updatedSkuCart
+  updatedSkuCart, updatedSkuCartAtDelete
 } = require('../controllers/sku-controllers');
 
 
@@ -87,12 +87,35 @@ const createCart = async (req, res, next) => {
 }
 
 
-const updatedCart = async (req, res, next) => {}
+// const updatedCart = async (req, res, next) => {}
 
-const deleteCart = async (req, res, next) => {}
+const deleteCart = async (req, res, next) => {
+  CartModel.findOneAndDelete({ "user": req.params.uid }, function (err, cart) {
+    console.log(cart)
+    if (!cart)
+      next(new HttpError('cart is not found'), 404);
+    else
+    console.log("cart is remove")
+      // res.status(200).send("cart is removed");
+  })
+  .then(cart => {
+    req.body.items.map((item)=>{
+      console.log("sku", item.sku)
+      updatedSkuCartAtDelete(({
+        "skuId": item.sku,
+        "size": item.size,
+        "quantity": item.quantity,
+      }), res, next)
+    })
+  })
+    .catch(err => {
+      next(new HttpError('cart user failed'), 400);
+    });
+}
 
 // const validateCart = async (req, res, next) => 
 
 
 exports.createCart = createCart;
 exports.getCartByUserId = getCartByUserId;
+exports.deleteCart = deleteCart;

@@ -68,6 +68,26 @@ const updatedSkuCart = async (req, res, next) => {
             });
     });
 }
+const updatedSkuCartAtDelete = async (req, res, next) => {
+    console.log("je suis dans update sku cart")
+    console.log(req.skuId)
+    SkuModel.findOne({productId : req.skuId, size: req.size }, function (err, sku) {
+        console.log("skufoumded",sku)
+        if (!sku)
+            res.status(404).send("sku is not found");
+        else
+            sku.size = req.size;
+            sku.quantity = (sku.quantity + req.quantity);
+            sku.productId = req.skuId;
+            sku.save()
+            .then(sku => {
+                res.status(200).json('sku updated and cart remove!');
+            })
+            .catch(err => {
+                next(new HttpError('updating sku failed'), 400);
+            });
+    });
+}
 
 const removeSkuByProductId = async (req, res, next) => {
     req = req.toString();
@@ -89,3 +109,4 @@ exports.updatedSku = updatedSku;
 exports.removeSkuByProductId = removeSkuByProductId;
 exports.getSkuByProductId = getSkuByProductId;
 exports.updatedSkuCart = updatedSkuCart;
+exports.updatedSkuCartAtDelete = updatedSkuCartAtDelete;
