@@ -2,7 +2,10 @@ const HttpError = require ('../models/http-errors');
 const { validationResult } = require('express-validator')
 const ChallengeModel = require('../models/ChallengeModel');
 
-
+const getAllChallenges = async (req, res) => {
+  const challenges = await ChallengeModel.find({});
+  res.json({ challenges });
+};
 const getChallengeById = async (req, res, next) => {
     const challengeId = req.params.cid;
     if (!challengeId.match(/^[0-9a-fA-F]{24}$/)) {
@@ -57,10 +60,10 @@ const updatedChallenge = async (req, res, next) => {
 const deletedChallenge = async (req, res, next) => {
     ChallengeModel.findByIdAndDelete({_id: req.params.cid}).then(function(){
       res.json({'challenge': 'challenge deleted!'});
-    });
-    
+    });  
 }
 
+exports.getAllChallenges = getAllChallenges;
 exports.getChallengeById = getChallengeById;
 exports.addNewChallenge = addNewChallenge;
 exports.updatedChallenge = updatedChallenge;

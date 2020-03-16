@@ -42,12 +42,17 @@ const getProductByDate = async (req, res) => {
 };
 const getRandomProducts = async (req,res) => {
   console.log("je fais un random");
-  R = Math.floor(Math.random() * 50)
-  ProductModel.find({}).limit(5).skip(R).exec(function (err,random){
-    res.json({ random });
-  })
 
-};
+  // const db = await ProductModel.find({'category.gender': "femme"});
+  // console.log(db);
+  
+   ProductModel.aggregate([  
+    { $match:  {"category.gender": "femme"} },
+    { $sample: {size: 5} }]).exec(function (err, r){
+      console.log(r);
+      res.json({ r });
+    });
+  }
 
 const addNewProduct = async (req, res, next) => {
   const fail = validationResult(req);
