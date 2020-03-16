@@ -7,8 +7,9 @@ const productRouter = require('./routes/productRoutes');
 const userRouter = require('./routes/userRoutes');
 const categoryRouter = require('./routes/categoryRoutes');
 const challengeRouter = require('./routes/challengeRoutes');
-const cartRouter = require('./routes/cartRoutes')
+const cartRouter = require('./routes/cartRoutes');
 const skuRouter = require('./routes/skuRoutes');
+const rankRouter = require('./routes/rankRoutes');
 const HttpError = require('./models/http-errors');
 
 const app = express();
@@ -17,7 +18,6 @@ const uri = "mongodb+srv://ByTheWay:bythewayproject@bytheway-qybxr.mongodb.net/b
 const whitelist = ['http://18.212.196.17', 'http://localhost:8080', 'http://localhost:8020', 'http://localhost:3000'];
 const corsOptions = {
     origin: (origin, callback) => {
-        console.log(origin)
         if (whitelist.indexOf(origin) !== -1 || !origin) {
             callback(null, true)
         } else {
@@ -44,6 +44,7 @@ app.use(categoryRouter);
 app.use(challengeRouter);
 app.use(skuRouter);
 app.use(cartRouter);
+app.use(rankRouter);
 
 app.use((req, res, next) => {
     const error = new HttpError('could not find this route', 404)
