@@ -36,9 +36,7 @@ const createCart = async (req, res, next) => {
     "user": req.body.user
   }, function (err, existingCart) {
 
-    console.log("existing cart", existingCart);
     if (existingCart.length === 0) {
-      console.log("create cart");
 
       let cart = new CartModel({
         "user": req.body.user,
@@ -47,7 +45,6 @@ const createCart = async (req, res, next) => {
       });
       cart.save()
         .then(cart => {
-          console.log("sku", req.body.items[0].sku)
           updatedSkuCart(({
             "skuId": req.body.items[0].sku,
             "size": req.body.items[0].size,
@@ -56,8 +53,6 @@ const createCart = async (req, res, next) => {
           // res.status(200).json({ 'cart': 'cart added successfully' });
         })
     } else {
-      console.log("update cart");
-      console.log("product_id", req.body.items[0].product_id, );
       CartModel.updateOne({
           "user": req.body.user
         }, {
@@ -72,20 +67,45 @@ const createCart = async (req, res, next) => {
           }
         })
         .then(cart => {
-          console.log("sku", req.body.items[0].sku)
           updatedSkuCart(({
             "skuId": req.body.items[0].sku,
             "size": req.body.items[0].size,
             "quantity": req.body.items[0].quantity,
           }), res, next)
+          totalPrice(req.body.user, res,next)
         })
         .catch(err => {
           next(new HttpError('updating cart failed'), 400);
         });
     }
   })
-}
+};
 
+const totalPrice = async (req, res, next) => {
+  console.log("j'entre dans total price");
+  
+  let totalPrice = 0;
+  CartModel.find({
+    "user": req
+  }, function (err, existingCart) {
+    console.log("existingCart de total price",existingCart);
+    existingCart[0].items.map((item) => {
+      totalPrice = totalPrice + (item.price * item.quantity);
+      console.log(totalPrice);
+    })
+    CartModel.updateOne({
+      "user": req
+    }, {
+      $set: { "total_price": totalPrice }
+    }) 
+    .then(cart => {
+    console.log("update price ok");
+    })
+    .catch(err => {
+      next(new HttpError('updating price failed'), 400);
+    });
+  })
+};
 
 // const updatedCart = async (req, res, next) => {}
 
@@ -129,3 +149,4 @@ exports.createCart = createCart;
 exports.getCartByUserId = getCartByUserId;
 exports.deleteCart = deleteCart;
 exports.validateCart = validateCart;
+exports.totalPrice = totalPrice;

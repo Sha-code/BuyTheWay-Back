@@ -6,8 +6,9 @@ const cartsControllers = require('../controllers/carts-controllers');
 const router = express.Router();
 
 router.get('/cart/:uid', cartsControllers.getCartByUserId)
+router.get('/price/:uid', cartsControllers.totalPrice)
 router.post('/cart/add', cartsControllers.createCart)
-router.post('cart/validate', cartsControllers.validateCart)
+router.post('/cart/validate/:uid', cartsControllers.validateCart)
 router.delete('/cart/delete/:uid', cartsControllers.deleteCart)
 /*
 TODO:
