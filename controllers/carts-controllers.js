@@ -6,6 +6,7 @@ const CartModel = require('../models/CartModel');
 const {
   updatedSkuCart, updatedSkuCartAtDelete
 } = require('../controllers/sku-controllers');
+const UserModel =  require ('../models/UserModel');
 
 
 const getCartByUserId = async (req, res, next) => {
@@ -134,6 +135,22 @@ const deleteCart = async (req, res, next) => {
 }
 
 const validateCart = async (req, res, next) => {
+  cart = getCartByUserId(req.params.uid, res, next);
+  console.log(cart);
+  let fidelity = Math.round((cart.total_price * 0.2));
+  
+  UserModel.updateOne({
+    "_id": req.params.uid
+  }, {
+    $set: { "fidelity": fidelity }
+  }) 
+  .then(user => {
+  console.log("user price ok");
+  })
+  .catch(err => {
+    next(new HttpError('updating user fidelity failed'), 400);
+  });
+
   CartModel.findOneAndDelete({ "user": req.params.uid }, function (err, cart) {
     console.log(cart)
     if (!cart)
