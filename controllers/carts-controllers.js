@@ -113,9 +113,19 @@ const deleteCart = async (req, res, next) => {
     });
 }
 
-// const validateCart = async (req, res, next) => 
+const validateCart = async (req, res, next) => {
+  CartModel.findOneAndDelete({ "user": req.params.uid }, function (err, cart) {
+    console.log(cart)
+    if (!cart)
+      next(new HttpError('cart is not found'), 404);
+    else
+    console.log("cart is remove")
+      res.status(200).send("cart is removed and command is validated");
+  })
+}
 
 
 exports.createCart = createCart;
 exports.getCartByUserId = getCartByUserId;
 exports.deleteCart = deleteCart;
+exports.validateCart = validateCart;

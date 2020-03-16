@@ -57,8 +57,7 @@ const updatedChallenge = async (req, res, next) => {
 const deletedChallenge = async (req, res, next) => {
     ChallengeModel.findByIdAndDelete({_id: req.params.cid}).then(function(){
       res.json({'challenge': 'challenge deleted!'});
-    });
-    
+    });  
 }
 
 exports.getChallengeById = getChallengeById;
