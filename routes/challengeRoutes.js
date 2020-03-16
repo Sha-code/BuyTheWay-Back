@@ -7,6 +7,7 @@ const challengesControllers = require('../controllers/challenges-controllers');
 const router = express.Router();
 
 
+router.get('/challenges', challengesControllers.getAllChallenges)
 router.get('/challenge/:cid', challengesControllers.getChallengeById)
 //router.use(checkAuth);
 router.post('/challenge/add',[
