@@ -8,7 +8,7 @@ const {
 } = require('../controllers/sku-controllers');
 const UserModel =  require ('../models/UserModel');
 const ProductModel = require ('../models/ProductModel')
-
+const { levelUp } = require('../controllers/ranks-controllers');
 
 const getCartByUserId = async (req, res, next) => {
   const userId = req.params.uid;
@@ -146,10 +146,11 @@ const validateCart = async (req, res, next) => {
   }) 
   .then(user => {
     console.log("user fidelity ok");
+    levelUp(req, res, next);
     CartModel.findOneAndDelete({ "user": req.params.uid }, function (err, cart) {
       console.log(cart)
       if (!cart)
-        next(new HttpError('cart is not found'), 404);
+        next(new HttpError('cart is not found'), 404); 
       else
       console.log("cart is remove")
         res.status(200).send("cart is removed and command is validated");
