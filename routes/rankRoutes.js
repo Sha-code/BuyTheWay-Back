@@ -16,7 +16,7 @@ router.post('/rank/add', [
     check('name', 'breakpoint')
         .not()
         .isEmpty(),
-   
+
 ], ranksControllers.addNewRank)
 router.post('/rank/update/:rid',
     [
@@ -26,8 +26,5 @@ router.post('/rank/update/:rid',
 
     ], ranksControllers.updatedRank)
 router.delete('/rank/:rid', ranksControllers.deletedRank)
-
-
-
 
 module.exports = router;
