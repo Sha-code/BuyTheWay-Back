@@ -67,7 +67,7 @@ const signup = async (req, res, next) => {
     "nickname": nickname,
     "mail": mail,
     "password": hashedPassword,
-    "rank": "nOOb",
+    "rank": "fer",
     "role": "user",
     "fidelity": 0
   });

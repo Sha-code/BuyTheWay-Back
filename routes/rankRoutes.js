@@ -29,4 +29,356 @@ router.delete('/rank/:rid', ranksControllers.deletedRank)
 
 
 
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
+module.exports = router;router.delete('/rank/:rid', ranksControllers.deletedRank)
+
+
+
 module.exports = router;
