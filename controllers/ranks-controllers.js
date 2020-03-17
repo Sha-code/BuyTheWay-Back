@@ -1,6 +1,7 @@
 const HttpError = require ('../models/http-errors');
 const { validationResult } = require('express-validator')
 const RankModel = require('../models/RankModel');
+const UserModel = require ('../models/UserModel')
 
 const getAllRanks = async (req, res) => {
   const ranks = await RankModel.find({});
@@ -55,6 +56,28 @@ const updatedRank = async (req, res, next) => {
   });
 };
 
+const levelUp = async ( req, res, next ) => {
+//  find tout les break point supéreiru au user.fidelty , limit la rechercher à 1 , donc forcément le rank de l'user , puisset l'user
+
+const user = await UserModel.findOne({"_id": req.params.uid});
+console.log(user.fidelity);
+const rank = await RankModel.findOne({"breakpoint":{ $gt : user.fidelity}})
+console.log (rank.name);
+
+
+UserModel.updateOne({
+  "_id": req.params.uid
+}, {
+  $set: { "rank": rank.name }
+})
+.then(user => {
+  console.log("LEVEL UP !!!!!! ( ou pas, je sais pas moi , je suis qu'un console log après tout . ) ");
+})
+.catch(err => {
+  next(new HttpError('updating user fidelity update failed'), 400);
+});
+};
+
 const deletedRank = async (req, res, next) => {
     RankModel.findByIdAndDelete({_id: req.params.rid}).then(function(){
       res.json({'rank': 'rank deleted!'});
@@ -66,3 +89,4 @@ exports.getRanksById = getRanksById;
 exports.addNewRank = addNewRank;
 exports.updatedRank = updatedRank;
 exports.deletedRank = deletedRank;
+exports.levelUp = levelUp;

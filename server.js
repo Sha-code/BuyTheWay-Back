@@ -59,4 +59,4 @@ app.use((error, req, res, next) => {
     res.json({ message: error.message || 'An unknow error occured!' });
 });
 
-app.listen(3000, () => { console.log('Server is running...') });
+app.listen(3001, () => { console.log('Server is running...') });
