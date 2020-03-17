@@ -7,6 +7,7 @@ const {
   updatedSkuCart, updatedSkuCartAtDelete
 } = require('../controllers/sku-controllers');
 const UserModel =  require ('../models/UserModel');
+const ProductModel = require ('../models/ProductModel')
 
 
 const getCartByUserId = async (req, res, next) => {
@@ -50,8 +51,7 @@ const createCart = async (req, res, next) => {
             "skuId": req.body.items[0].sku,
             "size": req.body.items[0].size,
             "quantity": req.body.items[0].quantity,
-          }), res, next)
-          // res.status(200).json({ 'cart': 'cart added successfully' });
+          }), res, next);
         })
     } else {
       CartModel.updateOne({
@@ -60,6 +60,8 @@ const createCart = async (req, res, next) => {
           $push: {
             items: {
               "product_id": req.body.items[0].product_id,
+              "picture": req.body.items[0].picture,
+              "name": req.body.items[0].name,
               "size": req.body.items[0].size,
               "quantity": req.body.items[0].quantity,
               "price": req.body.items[0].price,
@@ -73,7 +75,7 @@ const createCart = async (req, res, next) => {
             "size": req.body.items[0].size,
             "quantity": req.body.items[0].quantity,
           }), res, next)
-          totalPrice(req.body.user, res,next)
+          totalPrice(req.body.user, res,next);
         })
         .catch(err => {
           next(new HttpError('updating cart failed'), 400);
@@ -82,17 +84,13 @@ const createCart = async (req, res, next) => {
   })
 };
 
-const totalPrice = async (req, res, next) => {
-  console.log("j'entre dans total price");
-  
+const totalPrice = async (req, res, next) => {  
   let totalPrice = 0;
   CartModel.find({
     "user": req
   }, function (err, existingCart) {
-    console.log("existingCart de total price",existingCart);
     existingCart[0].items.map((item) => {
       totalPrice = totalPrice + (item.price * item.quantity);
-      console.log(totalPrice);
     })
     CartModel.updateOne({
       "user": req
@@ -108,7 +106,7 @@ const totalPrice = async (req, res, next) => {
   })
 };
 
-// const updatedCart = async (req, res, next) => {}
+
 
 const deleteCart = async (req, res, next) => {
   CartModel.findOneAndDelete({ "user": req.params.uid }, function (err, cart) {
