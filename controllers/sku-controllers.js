@@ -49,10 +49,8 @@ const updatedSku = async (req, res, next) => {
     });
 }
 const updatedSkuCart = async (req, res, next) => {
-    console.log("je suis dans update sku cart")
-    console.log(req.skuId)
+
     SkuModel.findOne({productId : req.skuId, size: req.size }, function (err, sku) {
-        console.log("skufoumded",sku)
         if (!sku)
             res.status(404).send("sku is not found");
         else
@@ -62,6 +60,7 @@ const updatedSkuCart = async (req, res, next) => {
             sku.save()
             .then(sku => {
                 res.status(200).json('sku updated and cart created!');
+                console.log('sku updated and cart created!');
             })
             .catch(err => {
                 next(new HttpError('updating sku failed'), 400);
@@ -69,8 +68,7 @@ const updatedSkuCart = async (req, res, next) => {
     });
 }
 const updatedSkuCartAtDelete = async (req, res, next) => {
-    console.log("je suis dans update sku cart")
-    console.log(req.skuId)
+
     SkuModel.findOne({productId : req.skuId, size: req.size }, function (err, sku) {
         console.log("skufoumded",sku)
         if (!sku)
