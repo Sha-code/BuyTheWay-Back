@@ -27,5 +27,4 @@ router.post('/rank/update/:rid',
     ], ranksControllers.updatedRank)
 router.delete('/rank/:rid', ranksControllers.deletedRank)
 
-
 module.exports = router;
