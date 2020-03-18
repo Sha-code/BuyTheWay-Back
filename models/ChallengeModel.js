@@ -28,7 +28,15 @@ const ChallengeSchema = new mongoose.Schema({
             type: String,
             required: true,
         }
-    }
+    },
+    banner: {
+        type: String,
+    },
+    pictures: [{
+        link: {
+            type: String,
+        }
+    }]
 
 });
 

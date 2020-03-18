@@ -16,7 +16,7 @@ const getCartByUserId = async (req, res, next) => {
     return next(new HttpError('could not find a cart with this user, it does not corresponding to norms'), 404);
   }
   const cart = await CartModel.find({
-    "user": userId
+    "user": userId , "status": "en cours"
   });
   if (cart === null) {
     console.log('le panier ne peut etre trouver avec cet user', cart);
@@ -35,7 +35,7 @@ const createCart = async (req, res, next) => {
     })
   }
   CartModel.find({
-    "user": req.body.user
+    "user": req.body.user , "status": "en cours"
   }, function (err, existingCart) {
 
     if (existingCart.length === 0) {
@@ -55,7 +55,7 @@ const createCart = async (req, res, next) => {
         })
     } else {
       CartModel.updateOne({
-          "user": req.body.user
+          "user": req.body.user, "status": "en cours"
         }, {
           $push: {
             items: {
@@ -87,7 +87,7 @@ const createCart = async (req, res, next) => {
 const totalPrice = async (req, res, next) => {  
   let totalPrice = 0;
   CartModel.find({
-    "user": req
+    "user": req , "status": "en cours"
   }, function (err, existingCart) {
     existingCart[0].items.map((item) => {
       totalPrice = totalPrice + (item.price * item.quantity);
@@ -109,7 +109,7 @@ const totalPrice = async (req, res, next) => {
 
 
 const deleteCart = async (req, res, next) => {
-  CartModel.findOneAndDelete({ "user": req.params.uid }, function (err, cart) {
+  CartModel.findOneAndDelete({ "user": req.params.uid, "status": "en cours"}, function (err, cart) {
     if (!cart)
       next(new HttpError('cart is not found'), 404);
     else
@@ -131,7 +131,7 @@ const deleteCart = async (req, res, next) => {
 }
 
 const validateCart = async (req, res, next) => {
-  cart = await CartModel.findOne({ "user": req.params.uid });
+  cart = await CartModel.findOne({ "user": req.params.uid, "status": "en cours" });
   let fidelity = Math.round((cart.total_price * 0.2));
   UserModel.updateOne({
     "_id": req.params.uid
