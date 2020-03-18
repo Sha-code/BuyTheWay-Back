@@ -91,7 +91,7 @@ const signup = async (req, res, next) => {
     token = jwt.sign(
       { userNickname: createdUser.id, mail: createdUser.mail },
       'supersecret_dont_share',
-      { expiresIn: '1h' }
+      { expiresIn: '10h' }
     );
   } catch (err) {
     const error = new HttpError(
@@ -152,7 +152,7 @@ const login = async (req, res, next) => {
     token = jwt.sign(
       { userId: existingUser.id, mail: existingUser.mail },
       'supersecret_dont_share',
-      { expiresIn: '1h' }
+      { expiresIn: '10h' }
     );
   } catch (err) {
     const error = new HttpError(
