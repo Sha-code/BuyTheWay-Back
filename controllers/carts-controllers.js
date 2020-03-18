@@ -110,7 +110,6 @@ const totalPrice = async (req, res, next) => {
 
 const deleteCart = async (req, res, next) => {
   CartModel.findOneAndDelete({ "user": req.params.uid }, function (err, cart) {
-    console.log(cart)
     if (!cart)
       next(new HttpError('cart is not found'), 404);
     else
@@ -119,7 +118,6 @@ const deleteCart = async (req, res, next) => {
   })
   .then(cart => {
     req.body.items.map((item)=>{
-      console.log("sku", item.sku)
       updatedSkuCartAtDelete(({
         "skuId": item.sku,
         "size": item.size,
@@ -133,35 +131,40 @@ const deleteCart = async (req, res, next) => {
 }
 
 const validateCart = async (req, res, next) => {
-  console.log("uid",req.params.uid)
   cart = await CartModel.findOne({ "user": req.params.uid });
-  console.log("cart",cart);
   let fidelity = Math.round((cart.total_price * 0.2));
-  console.log("fidelity",fidelity);
-
   UserModel.updateOne({
     "_id": req.params.uid
   }, {
     $inc: { "fidelity": fidelity }
   }) 
   .then(user => {
-    console.log("user fidelity ok");
     levelUp(req, res, next);
-    CartModel.findOneAndDelete({ "user": req.params.uid }, function (err, cart) {
-      console.log(cart)
-      if (!cart)
-        next(new HttpError('cart is not found'), 404); 
-      else
-      console.log("cart is remove")
-        res.status(200).send("cart is removed and command is validated");
-    })
+    updatedStatus(req.params.uid,res,next);
+    // CartModel.findOneAndDelete({ "user": req.params.uid }, function (err, cart) {
+    //   console.log(cart)
+    //   if (!cart)
+    //     next(new HttpError('cart is not found'), 404); 
+    //   else
+    //   console.log("cart is remove")
+    //     res.status(200).send("cart is removed and command is validated");
+    // })
+
   })
   .catch(err => {
     next(new HttpError('updating user fidelity failed'), 400);
   });
 
-}
+};
 
+const updatedStatus = async (req, res, next) => {
+CartModel.updateOne({ user: req },{"$set":{"status": "validé"}})
+.then(CartModel =>{
+  res.status(200).send("Command is validated");
+}
+  )
+.catch(err => res.status(422).json(err));
+};
 
 exports.createCart = createCart;
 exports.getCartByUserId = getCartByUserId;

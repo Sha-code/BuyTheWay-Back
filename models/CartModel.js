@@ -33,6 +33,10 @@ const CartSchema = new mongoose.Schema({
     total_price: {
         type: Number,
     },
+    status: {
+        type: String,
+        default: "en cours"
+    },
     created_at: {
         type: Date,
         default: Date.now
