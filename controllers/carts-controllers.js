@@ -132,6 +132,7 @@ const deleteCart = async (req, res, next) => {
 
 const validateCart = async (req, res, next) => {
   cart = await CartModel.findOne({ "user": req.params.uid, "status": "en cours" });
+  console.log(cart)
   let fidelity = Math.round((cart.total_price * 0.2));
   UserModel.updateOne({
     "_id": req.params.uid
@@ -158,7 +159,7 @@ const validateCart = async (req, res, next) => {
 };
 
 const updatedStatus = async (req, res, next) => {
-CartModel.updateOne({ user: req },{"$set":{"status": "validé"}})
+CartModel.updateOne({ user: req, "status": "en cours" },{"$set":{"status": "validé"}})
 .then(CartModel =>{
   res.status(200).send("Command is validated");
 }
