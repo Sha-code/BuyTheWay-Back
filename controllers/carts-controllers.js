@@ -8,7 +8,6 @@ const {
   updatedSkuCartAtDelete
 } = require('../controllers/sku-controllers');
 const UserModel = require('../models/UserModel');
-const ProductModel = require('../models/ProductModel')
 const SkuModel = require('../models/SkuModel')
 const {
   levelUp
@@ -24,12 +23,14 @@ const getCartByUserId = async (req, res, next) => {
     "status": "en cours"
   });
   if (cart === null) {
-    console.log('le panier ne peut etre trouver avec cet user', cart);
     return next(new HttpError('could not find a cart with this user'), 404);
   }
-  res.json({
-    cart
+  then(() => {
+    res.json({ cart });  })
+  .catch(()=> {
+    next(new HttpError('an error as occured'), 400);
   });
+  
 };
 
 const createCart = async (req, res, next) => {
@@ -39,23 +40,11 @@ const createCart = async (req, res, next) => {
       'cart': 'inputs error'
     })
   }
-  // checkStock(
-  //   {"skuId": req.body.items[0].sku,
-  //   "size": req.body.items[0].size,
-  //   "quantity": req.body.items[0].quantity}
-  //   ,res,next)
-
-  // if (tooMany) {
-  //   res.status(422).json({
-  //     'cart': 'inputs error'
-  //   })
-  // }
   const stock = await SkuModel.findOne({
     productId: req.body.items[0].sku,
     size: req.body.items[0].size
   });
   if (stock.quantity >= req.body.items[0].quantity) {
-
     CartModel.find({
       "user": req.body.user,
       "status": "en cours"
@@ -128,16 +117,12 @@ const totalPrice = async (req, res, next) => {
           "total_price": totalPrice
         }
       })
-      .then(cart => {
-        console.log("update price ok");
-      })
+      .then(cart => {})
       .catch(err => {
         next(new HttpError('updating price failed'), 400);
       });
   })
 };
-
-
 
 const deleteCart = async (req, res, next) => {
   CartModel.findOneAndDelete({
@@ -147,8 +132,9 @@ const deleteCart = async (req, res, next) => {
       if (!cart)
         next(new HttpError('cart is not found'), 404);
       else
-        console.log("cart is remove")
-      // res.status(200).send("cart is removed");
+        res.json({
+          "message": "cart is removed"
+        })
     })
     .then(cart => {
       req.body.items.map((item) => {
@@ -169,7 +155,6 @@ const validateCart = async (req, res, next) => {
     "user": req.params.uid,
     "status": "en cours"
   });
-  console.log(cart)
   let fidelity = Math.round((cart.total_price * 0.2));
   UserModel.updateOne({
       "_id": req.params.uid
@@ -181,15 +166,6 @@ const validateCart = async (req, res, next) => {
     .then(user => {
       levelUp(req, res, next);
       updatedStatus(req.params.uid, res, next);
-      // CartModel.findOneAndDelete({ "user": req.params.uid }, function (err, cart) {
-      //   console.log(cart)
-      //   if (!cart)
-      //     next(new HttpError('cart is not found'), 404); 
-      //   else
-      //   console.log("cart is remove")
-      //     res.status(200).send("cart is removed and command is validated");
-      // })
-
     })
     .catch(err => {
       next(new HttpError('updating user fidelity failed'), 400);

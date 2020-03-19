@@ -1,75 +1,108 @@
 const HttpError = require('../models/http-errors');
-const { validationResult } = require('express-validator');
+const {
+  validationResult
+} = require('express-validator');
 const ProductModel = require('../models/ProductModel');
 const skuControllers = require('../controllers/sku-controllers');
 
 
 const getAllProducts = async (req, res) => {
   const products = await ProductModel.find({});
-  res.json({ products });
+  res.json({
+    products
+  });
 };
 const getProductByTendance = async (req, res) => {
-  console.log('tendance')
-  const tendances = await ProductModel.find({ 'tendance': true });
-  res.json({ tendances });
+  const tendances = await ProductModel.find({
+    'tendance': true
+  });
+  res.json({
+    tendances
+  });
 };
 
 const getProductById = async (req, res, next) => {
-  console.log("je fais une recherche by id")
   const productId = req.params.pid;
   if (!productId.match(/^[0-9a-fA-F]{24}$/)) {
     return next(new HttpError('could not find an article with this id, it does not corresponding to norms'), 404);
   }
   const product = await ProductModel.findById(productId);
   if (product === null) {
-    console.log('le produit ne peut etre trouver avec cet id', product);
     return next(new HttpError('could not find an article with this id'), 404);
   }
-  res.json({ product });
+  res.json({
+    product
+  });
 };
 
 const getProductByCategory = async (req, res) => {
   const categoryId = req.params.cid;
-  const category = await ProductModel.find({ 'category.id': categoryId });
-  res.json({ category });
+  const category = await ProductModel.find({
+    'category.id': categoryId
+  });
+  res.json({
+    category
+  });
 }
 const getProductByDate = async (req, res) => {
-  console.log("je fais une recherche by date");
-  ProductModel.find({}).sort({created_at: -1}).limit(7).exec(function (err, date){
-    console.log(date);
-    res.json({ date });
+  ProductModel.find({}).sort({
+    created_at: -1
+  }).limit(7).exec(function (err, date) {
+    res.json({
+      date
+    });
   });
 };
-const getRandomProducts = async (req,res) => {
-  console.log("je fais un random");
+const getRandomProducts = async (req, res) => {
 
-  // const db = await ProductModel.find({'category.gender': "femme"});
-  // console.log(db);
-  
-   ProductModel.aggregate([  
-    { $match:  {"category.gender": "femme"} },
-    { $sample: {size: 5} }]).exec(function (err, r){
-      console.log(r);
-      res.json({ r });
+  ProductModel.aggregate([{
+      $match: {
+        "category.gender": "femme"
+      }
+    },
+    {
+      $sample: {
+        size: 5
+      }
+    }
+  ]).exec(function (err, r) {
+    res.json({
+      r
     });
-  }
+  });
+}
 
 const addNewProduct = async (req, res, next) => {
   const fail = validationResult(req);
   if (!fail.isEmpty()) {
 
-    res.status(422).json({ 'products': 'inputs error' })
+    res.status(422).json({
+      'products': 'inputs error'
+    })
   }
   let product = new ProductModel(req.body);
-  console.log(product)
   product.save()
     .then(product => {
-      let sizeQuantity = [
-        { "size": "XS", "quantity": "15" },
-        { "size": "S", "quantity": "30" },
-        { "size": "M", "quantity": "35" },
-        { "size": "L", "quantity": "30" },
-        { "size": "XL", "quantity": "15" }
+      let sizeQuantity = [{
+          "size": "XS",
+          "quantity": "15"
+        },
+        {
+          "size": "S",
+          "quantity": "30"
+        },
+        {
+          "size": "M",
+          "quantity": "35"
+        },
+        {
+          "size": "L",
+          "quantity": "30"
+        },
+        {
+          "size": "XL",
+          "quantity": "15"
+        }
       ]
       sizeQuantity.map((item) => {
         skuControllers.addNewSku(({
@@ -79,7 +112,9 @@ const addNewProduct = async (req, res, next) => {
         }), res, next)
       })
 
-      res.status(200).json({ 'product': 'product and skus added successfully' });
+      res.status(200).json({
+        'product': 'product and skus added successfully'
+      });
     })
     .catch(err => {
       next(new HttpError('adding new product failed'), 400);
@@ -87,15 +122,12 @@ const addNewProduct = async (req, res, next) => {
 }
 const removeProductById = async (req, res, next) => {
   ProductModel.findByIdAndRemove(req.params.pid, function (err, product) {
-    console.log(product)
-    if (!product)
-      next(new HttpError('product is not found'), 404);
-    else {
-      console.log(product.sku)
-      skuControllers.removeSkuByProductId((product.sku), res, next)
-      // res.status(200).send("product is removed");
-    }
-  })
+      if (!product)
+        next(new HttpError('product is not found'), 404);
+      else {
+        skuControllers.removeSkuByProductId((product.sku), res, next)
+      }
+    })
     .catch(err => {
       next(new HttpError('removing product failed'), 400);
     });
@@ -104,10 +136,11 @@ const updatedProduct = async (req, res, next) => {
   const fail = validationResult(req);
   if (!fail.isEmpty()) {
 
-    res.status(422).json({ 'products': 'inputs error' })
+    res.status(422).json({
+      'products': 'inputs error'
+    })
   }
   ProductModel.findById(req.params.pid, function (err, product) {
-    console.log(product)
     if (!product)
       res.status(404).send("data is not found");
     else
@@ -118,8 +151,8 @@ const updatedProduct = async (req, res, next) => {
     product.price = req.body.price;
     product.picture = req.body.picture;
     product.save().then(product => {
-      res.json('product updated!');
-    })
+        res.json('product updated!');
+      })
       .catch(err => {
         next(new HttpError('updating product failed'), 400);
       });
@@ -128,20 +161,22 @@ const updatedProduct = async (req, res, next) => {
 
 const updatedTendance = async (req, res, next) => {
 
-    let tendance;
-    product = await ProductModel.findById(req.params.pid);
-    console.log(product.tendance);
-    if (product.tendance ==="true") {
-      console.log('je suis une tendance true')
-      tendance = "false";
-    } else {
-      console.log('je suis une tendance false')
-      tendance = "true";
-    }
-    console.log(tendance);
-    ProductModel.updateOne({ _id: req.params.pid },{"$set":{"tendance": tendance}})
-  .then(ProductModel => res.json(ProductModel))
-  .catch(err => res.status(422).json(err));
+  let tendance;
+  product = await ProductModel.findById(req.params.pid);
+  if (product.tendance === "true") {
+    tendance = "false";
+  } else {
+    tendance = "true";
+  }
+  ProductModel.updateOne({
+      _id: req.params.pid
+    }, {
+      "$set": {
+        "tendance": tendance
+      }
+    })
+    .then(ProductModel => res.json(ProductModel))
+    .catch(err => res.status(422).json(err));
 
 }
 
@@ -154,8 +189,5 @@ exports.getProductByDate = getProductByDate;
 exports.getRandomProducts = getRandomProducts;
 exports.addNewProduct = addNewProduct;
 exports.updatedProduct = updatedProduct;
-exports.updatedTendance =updatedTendance;
+exports.updatedTendance = updatedTendance;
 exports.removeProductById = removeProductById;
-
-
-

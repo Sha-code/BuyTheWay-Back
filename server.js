@@ -26,17 +26,15 @@ const corsOptions = {
     }
 };
 
-
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
 
 
 mongoose.connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-    .catch((error) => console.log(JSON.stringify(error))
-    );
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    .catch((error) => console.log(JSON.stringify(error)));
 
 app.use(productRouter);
 app.use(userRouter);
@@ -56,7 +54,11 @@ app.use((error, req, res, next) => {
         return next(error);
     }
     res.status(error.code || 500);
-    res.json({ message: error.message || 'An unknow error occured!' });
+    res.json({
+        message: error.message || 'An unknow error occured!'
+    });
 });
 
-app.listen(3000, () => { console.log('Server is running...') });
+app.listen(3000, () => {
+    console.log('Server is running...')
+});

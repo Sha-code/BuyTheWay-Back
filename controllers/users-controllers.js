@@ -1,4 +1,6 @@
-const { validationResult } = require('express-validator');
+const {
+  validationResult
+} = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const HttpError = require('../models/http-errors');
@@ -8,61 +10,62 @@ const getUserById = async (req, res, next) => {
   const userId = req.params.uid;
   if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
     return next(new HttpError('This is not a valid id'), 404);
-  }
+  };
   const user = await UserModel.findById(userId);
   if (user === null) {
-    console.log('l\'utilisateur ne peut etre trouvé avec cet id', user)
     return next(new HttpError('could not find an user with this id'), 404);
-  }
-  res.json({ user });
+  };
+  then(() => {
+      res.json({
+        user
+      });
+    })
+    .catch(() => {
+      next(new HttpError('an error as occured'), 400);
+    });
 };
+
 const signup = async (req, res, next) => {
-  console.log('enter in signuup');
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
       new HttpError('Invalid inputs passed, please check your data.', 422)
     );
-  }
-
-  const { nickname, mail, password, } = req.body;
-
-  console.log(mail)
+  };
+  const {
+    nickname,
+    mail,
+    password,
+  } = req.body;
   let existingUser;
   try {
-    existingUser = await UserModel.findOne({ 'mail': mail });
-
+    existingUser = await UserModel.findOne({
+      'mail': mail
+    });
   } catch (err) {
     const error = new HttpError(
       'Signing up failed, please try again later.',
       500
     );
     return next(error);
-  }
-
+  };
   if (existingUser) {
-
     const error = new HttpError(
       'User exists already, please login instead.',
       422
     );
     return next(error);
-  }
-
+  };
   let hashedPassword;
   try {
-
     hashedPassword = await bcrypt.hash(password, 12);
-    console.log(hashedPassword)
-
   } catch (err) {
     const error = new HttpError(
       'Could not create user, please try again.',
       500
     );
     return next(error);
-  }
-
+  };
   const createdUser = new UserModel({
     "nickname": nickname,
     "mail": mail,
@@ -71,10 +74,7 @@ const signup = async (req, res, next) => {
     "role": "user",
     "fidelity": 0
   });
-
   try {
-    console.log("3try");
-
     await createdUser.save();
   } catch (err) {
     const error = new HttpError(
@@ -82,16 +82,16 @@ const signup = async (req, res, next) => {
       500
     );
     return next(error);
-  }
-
+  };
   let token;
   try {
-    console.log("4try");
-
-    token = jwt.sign(
-      { userNickname: createdUser.id, mail: createdUser.mail },
-      'supersecret_dont_share',
-      { expiresIn: '10h' }
+    token = jwt.sign({
+        userNickname: createdUser.id,
+        mail: createdUser.mail
+      },
+      'supersecret_dont_share', {
+        expiresIn: '10h'
+      }
     );
   } catch (err) {
     const error = new HttpError(
@@ -99,19 +99,27 @@ const signup = async (req, res, next) => {
       500
     );
     return next(error);
-  }
-
+  };
   res
     .status(201)
-    .json({ userId: createdUser.id, mail: createdUser.mail, token: token });
+    .json({
+      userId: createdUser.id,
+      mail: createdUser.mail,
+      token: token
+    });
 };
 
 const login = async (req, res, next) => {
-  const { mail, password } = req.body;
+  const {
+    mail,
+    password
+  } = req.body;
 
   let existingUser;
   try {
-    existingUser = await UserModel.findOne({ mail: mail });
+    existingUser = await UserModel.findOne({
+      mail: mail
+    });
   } catch (err) {
     const error = new HttpError(
       'Logging in failed, please try again later.',
@@ -149,10 +157,13 @@ const login = async (req, res, next) => {
 
   let token;
   try {
-    token = jwt.sign(
-      { userId: existingUser.id, mail: existingUser.mail },
-      'supersecret_dont_share',
-      { expiresIn: '10h' }
+    token = jwt.sign({
+        userId: existingUser.id,
+        mail: existingUser.mail
+      },
+      'supersecret_dont_share', {
+        expiresIn: '10h'
+      }
     );
   } catch (err) {
     const error = new HttpError(
@@ -171,36 +182,41 @@ const login = async (req, res, next) => {
 const updatedUser = async (req, res, next) => {
   const fail = validationResult(req);
   if (!fail.isEmpty()) {
-
-    res.status(422).json({ 'users': 'inputs error' })
-  }
-  UserModel.findById(req.params.uid, function (err, user) {
-    if (!user)
-      res.status(404).send("user is not found");
-    else
-      user.nickname = req.body.nickname;
-    user.fidelity = req.body.fidelity;
-    user.mail = req.body.mail;
-    user.password = req.body.password;
-    user.rank = req.body.rank;
-    user.role = req.body.role;
-    user.customer = req.body.customer;
-    user.save().then(user => {
-      res.json('user updated!');
+    res.status(422).json({
+      'users': 'inputs error'
     })
-      .catch(err => {
-        next(new HttpError('updating user failed'), 400);
-      });
+  };
+  UserModel.findById(req.params.uid, function (err, user) {
+    if (!user) {
+      res.status(404).send("user is not found");
+    } else {
+      user.nickname = req.body.nickname;
+      user.fidelity = req.body.fidelity;
+      user.mail = req.body.mail;
+      user.password = req.body.password;
+      user.rank = req.body.rank;
+      user.role = req.body.role;
+      user.customer = req.body.customer;
+      user.save()
+        .then(user => {
+          res.json('user updated!');
+        })
+        .catch(err => {
+          next(new HttpError('updating user failed'), 400);
+        });
+    };
   });
 }
 const removeUserById = async (req, res, next) => {
-  UserModel.findOneAndDelete({ "_id": req.params.uid }, function (err, user) {
-    console.log(user)
-    if (!user)
-      next(new HttpError('user is not found'), 404);
-    else
-      res.status(200).send("user is removed");
-  })
+  UserModel.findOneAndDelete({
+      "_id": req.params.uid
+    }, function (err, user) {
+      if (!user){
+        next(new HttpError('user is not found'), 404);
+      } else {
+        res.status(200).send("user is removed");
+      };
+    })
     .catch(err => {
       next(new HttpError('remove user failed'), 400);
     });

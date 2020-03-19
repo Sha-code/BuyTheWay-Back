@@ -4,27 +4,24 @@ const ranksControllers = require('../controllers/ranks-controllers');
 
 const checkAuth = require('../middleware/check-auth');
 
-
 const router = express.Router();
 
+router.get('/ranks', ranksControllers.getAllRanks);
+router.get('/rank/:rid', ranksControllers.getRanksById);
 
-router.get('/ranks', ranksControllers.getAllRanks)
-router.get('/rank/:rid', ranksControllers.getRanksById)
-
-// router.use(checkAuth);
 router.post('/rank/add',checkAuth, [
     check('name', 'breakpoint')
         .not()
         .isEmpty(),
 
-], ranksControllers.addNewRank)
+], ranksControllers.addNewRank);
 router.post('/rank/update/:rid',checkAuth,
     [
         check('name', 'breakpoint')
             .not()
             .isEmpty(),
 
-    ], ranksControllers.updatedRank)
-router.delete('/rank/:rid',checkAuth, ranksControllers.deletedRank)
+    ], ranksControllers.updatedRank);
+router.delete('/rank/:rid',checkAuth, ranksControllers.deletedRank);
 
 module.exports = router;

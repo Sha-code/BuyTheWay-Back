@@ -5,8 +5,6 @@ const SkuSchema = new mongoose.Schema({
     size: {
         type: String,
         required: true,
-        // trim: true,
-        // lowercase: true
     },
     quantity: {
         type: Number,
