@@ -25,13 +25,11 @@ const getCartByUserId = async (req, res, next) => {
   if (cart === null) {
     return next(new HttpError('could not find a cart with this user'), 404);
   }
-  then(() => {
-    res.json({ cart });  })
-  .catch(()=> {
-    next(new HttpError('an error as occured'), 400);
+  res.json({
+    cart
   });
-  
 };
+
 
 const createCart = async (req, res, next) => {
   const fail = validationResult(req);

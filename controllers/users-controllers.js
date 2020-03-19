@@ -10,19 +10,13 @@ const getUserById = async (req, res, next) => {
   const userId = req.params.uid;
   if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
     return next(new HttpError('This is not a valid id'), 404);
-  };
+  }
   const user = await UserModel.findById(userId);
   if (user === null) {
+    console.log('l\'utilisateur ne peut etre trouvé avec cet id', user)
     return next(new HttpError('could not find an user with this id'), 404);
-  };
-  then(() => {
-      res.json({
-        user
-      });
-    })
-    .catch(() => {
-      next(new HttpError('an error as occured'), 400);
-    });
+  }
+  res.json({ user });
 };
 
 const signup = async (req, res, next) => {

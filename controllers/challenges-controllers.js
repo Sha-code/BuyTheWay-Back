@@ -4,14 +4,21 @@ const {
 } = require('express-validator')
 const ChallengeModel = require('../models/ChallengeModel');
 
-const getAllChallenges = async (req, res) => {
-  const challenges = await ChallengeModel.find({})
+
+// const getAllChallenges = async (req, res) => {
+//   const challenges = await ChallengeModel.find({});
+//   res.json({ challenges });
+// };
+const getAllChallenges = async (req, res, next) => {
+  ChallengeModel.find({} , function(err, response) {
+    challenges = response;
+  })
     .then(() => {
       res.json({
         challenges
       });
     })
-    .catch(() => {
+    .catch((err) => {
       next(new HttpError('could not get all challenges'), 400);
     });
 };
