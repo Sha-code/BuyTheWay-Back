@@ -5,13 +5,20 @@ const {
 const ProductModel = require('../models/ProductModel');
 const skuControllers = require('../controllers/sku-controllers');
 
-
-const getAllProducts = async (req, res) => {
-  const products = await ProductModel.find({});
-  res.json({
-    products
-  });
+const getAllProducts = async (req, res, next) => {
+  ProductModel.find({} , function(err, response) {
+    products = response;
+  })
+    .then(() => {
+      res.json({
+        products
+      });
+    })
+    .catch((err) => {
+      next(new HttpError('could not get all products'), 400);
+    });
 };
+
 const getProductByTendance = async (req, res) => {
   const tendances = await ProductModel.find({
     'tendance': true
@@ -145,12 +152,12 @@ const updatedProduct = async (req, res, next) => {
       res.status(404).send("data is not found");
     else
       product.sku = req.body.sku;
-    product.description = req.body.description;
-    product.category = req.body.category;
-    product.name = req.body.name;
-    product.price = req.body.price;
-    product.picture = req.body.picture;
-    product.save().then(product => {
+      product.description = req.body.description;
+      product.category = req.body.category;
+      product.name = req.body.name;
+      product.price = req.body.price;
+      product.picture = req.body.picture;
+      product.save().then(product => {
         res.json('product updated!');
       })
       .catch(err => {
