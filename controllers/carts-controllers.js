@@ -100,6 +100,7 @@ const createCart = async (req, res, next) => {
 
 
 const totalPrice = async (req, res, next) => {
+  console.log('je passe dans total price');
   let totalPrice = 0;
   CartModel.find({
     "user": req,
@@ -107,6 +108,8 @@ const totalPrice = async (req, res, next) => {
   }, function (err, existingCart) {
     existingCart[0].items.map((item) => {
       totalPrice = totalPrice + (item.price * item.quantity);
+      console.log("item price", item.price , "*", item.quantity);
+      console.log("totalprice", totalPrice);
     })
     CartModel.updateOne({
         "user": req
