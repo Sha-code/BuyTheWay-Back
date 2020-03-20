@@ -113,7 +113,8 @@ const totalPrice = async (req, res, next) => {
     })
     console.log("total price apres le map", totalPrice);
     CartModel.updateOne({
-      "user": req
+      "user": req,
+      "status": "en cours"
     }, {
       $set: {
         "total_price": totalPrice
