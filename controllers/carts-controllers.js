@@ -32,6 +32,7 @@ const getCartByUserId = async (req, res, next) => {
 
 
 const createCart = async (req, res, next) => {
+  console.log("req", req.body);
   const fail = validationResult(req);
   if (!fail.isEmpty()) {
     res.status(422).json({
@@ -65,21 +66,21 @@ const createCart = async (req, res, next) => {
           })
       } else {
         CartModel.updateOne({
-            "user": req.body.user,
-            "status": "en cours"
-          }, {
-            $push: {
-              items: {
-                "product_id": req.body.items[0].product_id,
-                "picture": req.body.items[0].picture,
-                "name": req.body.items[0].name,
-                "size": req.body.items[0].size,
-                "quantity": req.body.items[0].quantity,
-                "price": req.body.items[0].price,
-                "sku": req.body.items[0].sku
-              }
+          "user": req.body.user,
+          "status": "en cours"
+        }, {
+          $push: {
+            items: {
+              "product_id": req.body.items[0].product_id,
+              "picture": req.body.items[0].picture,
+              "name": req.body.items[0].name,
+              "size": req.body.items[0].size,
+              "quantity": req.body.items[0].quantity,
+              "price": req.body.items[0].price,
+              "sku": req.body.items[0].sku
             }
-          })
+          }
+        })
           .then(cart => {
             updatedSkuCart(({
               "skuId": req.body.items[0].sku,
@@ -107,15 +108,17 @@ const totalPrice = async (req, res, next) => {
   }, function (err, existingCart) {
     existingCart[0].items.map((item) => {
       totalPrice = totalPrice + (item.price * item.quantity);
+      console.log("item price", item.price, "*", item.quantity);
+      console.log("totalprice", totalPrice);
     })
     CartModel.updateOne({
-        "user": req
-      }, {
-        $set: {
-          "total_price": totalPrice
-        }
-      })
-      .then(cart => {})
+      "user": req
+    }, {
+      $set: {
+        "total_price": totalPrice
+      }
+    })
+      .then(cart => { })
       .catch(err => {
         next(new HttpError('updating price failed'), 400);
       });
@@ -124,16 +127,16 @@ const totalPrice = async (req, res, next) => {
 
 const deleteCart = async (req, res, next) => {
   CartModel.findOneAndDelete({
-      "user": req.params.uid,
-      "status": "en cours"
-    }, function (err, cart) {
-      if (!cart)
-        next(new HttpError('cart is not found'), 404);
-      else
-        res.json({
-          "message": "cart is removed"
-        })
-    })
+    "user": req.params.uid,
+    "status": "en cours"
+  }, function (err, cart) {
+    if (!cart)
+      next(new HttpError('cart is not found'), 404);
+    else
+      res.json({
+        "message": "cart is removed"
+      })
+  })
     .then(cart => {
       req.body.items.map((item) => {
         updatedSkuCartAtDelete(({
@@ -155,12 +158,12 @@ const validateCart = async (req, res, next) => {
   });
   let fidelity = Math.round((cart.total_price * 0.2));
   UserModel.updateOne({
-      "_id": req.params.uid
-    }, {
-      $inc: {
-        "fidelity": fidelity
-      }
-    })
+    "_id": req.params.uid
+  }, {
+    $inc: {
+      "fidelity": fidelity
+    }
+  })
     .then(user => {
       levelUp(req, res, next);
       updatedStatus(req.params.uid, res, next);
@@ -173,13 +176,13 @@ const validateCart = async (req, res, next) => {
 
 const updatedStatus = async (req, res, next) => {
   CartModel.updateOne({
-      user: req,
-      "status": "en cours"
-    }, {
-      "$set": {
-        "status": "validé"
-      }
-    })
+    user: req,
+    "status": "en cours"
+  }, {
+    "$set": {
+      "status": "validé"
+    }
+  })
     .then(CartModel => {
       res.status(200).send("Command is validated");
     })
