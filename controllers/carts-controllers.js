@@ -108,10 +108,7 @@ const totalPrice = async (req, res, next) => {
   }, function (err, existingCart) {
     existingCart[0].items.map((item) => {
       totalPrice = totalPrice + (item.price * item.quantity);
-      console.log("item price", item.price, "*", item.quantity);
-      console.log("totalprice", totalPrice);
     })
-    console.log("total price apres le map", totalPrice);
     CartModel.updateOne({
       "user": req,
       "status": "en cours"
